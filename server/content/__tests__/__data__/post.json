@@ -1,0 +1,792 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "yaml",
+      "value": "title: \"Scrollable COVID tracker\"\nimg: \"../resources/covid-tracker.png\"\nsummary: \"Scroll or swipe over the history of the pandemic in your country\"\nrank: 0",
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 6,
+          "column": 4,
+          "offset": 163
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "I was partly inspired to build ",
+          "position": {
+            "start": {
+              "line": 8,
+              "column": 1,
+              "offset": 165
+            },
+            "end": {
+              "line": 8,
+              "column": 32,
+              "offset": 196
+            }
+          }
+        },
+        {
+          "type": "link",
+          "title": null,
+          "url": "https://hypocube.space",
+          "children": [
+            {
+              "type": "text",
+              "value": "Hypocube",
+              "position": {
+                "start": {
+                  "line": 8,
+                  "column": 33,
+                  "offset": 197
+                },
+                "end": {
+                  "line": 8,
+                  "column": 41,
+                  "offset": 205
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 8,
+              "column": 32,
+              "offset": 196
+            },
+            "end": {
+              "line": 8,
+              "column": 66,
+              "offset": 230
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " by bad COVID\ntrackers on the web, so I thought that - despite being late to the party - I'd\npresent my own.",
+          "position": {
+            "start": {
+              "line": 8,
+              "column": 66,
+              "offset": 230
+            },
+            "end": {
+              "line": 10,
+              "column": 16,
+              "offset": 338
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 8,
+          "column": 1,
+          "offset": 165
+        },
+        "end": {
+          "line": 10,
+          "column": 16,
+          "offset": 338
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "The overall goal was to be an interactive version of the graphs made by\n",
+          "position": {
+            "start": {
+              "line": 12,
+              "column": 1,
+              "offset": 340
+            },
+            "end": {
+              "line": 13,
+              "column": 1,
+              "offset": 412
+            }
+          }
+        },
+        {
+          "type": "link",
+          "title": null,
+          "url": "https://twitter.com/burkert_andreas",
+          "children": [
+            {
+              "type": "text",
+              "value": "Andreas Burkert",
+              "position": {
+                "start": {
+                  "line": 13,
+                  "column": 2,
+                  "offset": 413
+                },
+                "end": {
+                  "line": 13,
+                  "column": 17,
+                  "offset": 428
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 412
+            },
+            "end": {
+              "line": 13,
+              "column": 55,
+              "offset": 466
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " (though he doesn't seem\nto be around Twitter anymore). What I liked about his visualizations were:",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 55,
+              "offset": 466
+            },
+            "end": {
+              "line": 14,
+              "column": 75,
+              "offset": 565
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 12,
+          "column": 1,
+          "offset": 340
+        },
+        "end": {
+          "line": 14,
+          "column": 75,
+          "offset": 565
+        }
+      }
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "start": 1,
+      "spread": false,
+      "children": [
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "case numbers are population-adjusted",
+                  "position": {
+                    "start": {
+                      "line": 16,
+                      "column": 4,
+                      "offset": 570
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 40,
+                      "offset": 606
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 16,
+                  "column": 4,
+                  "offset": 570
+                },
+                "end": {
+                  "line": 16,
+                  "column": 40,
+                  "offset": 606
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 567
+            },
+            "end": {
+              "line": 16,
+              "column": 40,
+              "offset": 606
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "logarithmic scale shows the rate of exponential growth",
+                  "position": {
+                    "start": {
+                      "line": 17,
+                      "column": 4,
+                      "offset": 610
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 58,
+                      "offset": 664
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 17,
+                  "column": 4,
+                  "offset": 610
+                },
+                "end": {
+                  "line": 17,
+                  "column": 58,
+                  "offset": 664
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 607
+            },
+            "end": {
+              "line": 17,
+              "column": 58,
+              "offset": 664
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "primary focus is on the current time",
+                  "position": {
+                    "start": {
+                      "line": 18,
+                      "column": 4,
+                      "offset": 668
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 40,
+                      "offset": 704
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 18,
+                  "column": 4,
+                  "offset": 668
+                },
+                "end": {
+                  "line": 18,
+                  "column": 40,
+                  "offset": 704
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 18,
+              "column": 1,
+              "offset": 665
+            },
+            "end": {
+              "line": 18,
+              "column": 40,
+              "offset": 704
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 16,
+          "column": 1,
+          "offset": 567
+        },
+        "end": {
+          "line": 18,
+          "column": 40,
+          "offset": 704
+        }
+      }
+    },
+    {
+      "type": "leafDirective",
+      "name": "CovidTracker",
+      "attributes": {
+        "modelName": "mCovidCases",
+        "query": "countries=USA,CAN,GB"
+      },
+      "children": [],
+      "position": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 706
+        },
+        "end": {
+          "line": 20,
+          "column": 67,
+          "offset": 772
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Of course, mixing in the interactive capabilities of the web, we can add some\nmore features:",
+          "position": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 774
+            },
+            "end": {
+              "line": 23,
+              "column": 15,
+              "offset": 866
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 22,
+          "column": 1,
+          "offset": 774
+        },
+        "end": {
+          "line": 23,
+          "column": 15,
+          "offset": 866
+        }
+      }
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "start": 1,
+      "spread": false,
+      "children": [
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "scrollable x-axis (mouse, touch, trackpad)",
+                  "position": {
+                    "start": {
+                      "line": 25,
+                      "column": 4,
+                      "offset": 871
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 46,
+                      "offset": 913
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 25,
+                  "column": 4,
+                  "offset": 871
+                },
+                "end": {
+                  "line": 25,
+                  "column": 46,
+                  "offset": 913
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 25,
+              "column": 1,
+              "offset": 868
+            },
+            "end": {
+              "line": 25,
+              "column": 46,
+              "offset": 913
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "series highlighting",
+                  "position": {
+                    "start": {
+                      "line": 26,
+                      "column": 4,
+                      "offset": 917
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 23,
+                      "offset": 936
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 26,
+                  "column": 4,
+                  "offset": 917
+                },
+                "end": {
+                  "line": 26,
+                  "column": 23,
+                  "offset": 936
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 26,
+              "column": 1,
+              "offset": 914
+            },
+            "end": {
+              "line": 26,
+              "column": 23,
+              "offset": 936
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "ability to add data from any country (or continent)",
+                  "position": {
+                    "start": {
+                      "line": 27,
+                      "column": 4,
+                      "offset": 940
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 55,
+                      "offset": 991
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 27,
+                  "column": 4,
+                  "offset": 940
+                },
+                "end": {
+                  "line": 27,
+                  "column": 55,
+                  "offset": 991
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 27,
+              "column": 1,
+              "offset": 937
+            },
+            "end": {
+              "line": 27,
+              "column": 55,
+              "offset": 991
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 25,
+          "column": 1,
+          "offset": 868
+        },
+        "end": {
+          "line": 27,
+          "column": 55,
+          "offset": 991
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "The data are pulled from a ginormous JSON file at\n",
+          "position": {
+            "start": {
+              "line": 29,
+              "column": 1,
+              "offset": 993
+            },
+            "end": {
+              "line": 30,
+              "column": 1,
+              "offset": 1043
+            }
+          }
+        },
+        {
+          "type": "link",
+          "title": null,
+          "url": "https://github.com/owid/covid-19-data/tree/master/public/data",
+          "children": [
+            {
+              "type": "text",
+              "value": "Our World in Data",
+              "position": {
+                "start": {
+                  "line": 30,
+                  "column": 2,
+                  "offset": 1044
+                },
+                "end": {
+                  "line": 30,
+                  "column": 19,
+                  "offset": 1061
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 1043
+            },
+            "end": {
+              "line": 30,
+              "column": 83,
+              "offset": 1125
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": "\nevery four hours, processed and placed in a database by country. I wrote a\nsimple Express server that queries the database by country and returns the\ncase-numbers data.",
+          "position": {
+            "start": {
+              "line": 30,
+              "column": 83,
+              "offset": 1125
+            },
+            "end": {
+              "line": 33,
+              "column": 19,
+              "offset": 1294
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 29,
+          "column": 1,
+          "offset": 993
+        },
+        "end": {
+          "line": 33,
+          "column": 19,
+          "offset": 1294
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Even for someone who follows the pandemic closely, looking at the data this way\nalways reveals something new. It's surprising how often the media report case\nnumbers only in absolute terms, which makes the situation in large countries\n(particular the USA) seem worse than it really is. Conversely, while the load in\nCanada seems to be decreasing overall, this masks the regional picture: out\nwest, we're still walking on knives.",
+          "position": {
+            "start": {
+              "line": 35,
+              "column": 1,
+              "offset": 1296
+            },
+            "end": {
+              "line": 40,
+              "column": 37,
+              "offset": 1724
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 35,
+          "column": 1,
+          "offset": 1296
+        },
+        "end": {
+          "line": 40,
+          "column": 37,
+          "offset": 1724
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Find a bug or have a suggestion? ",
+          "position": {
+            "start": {
+              "line": 42,
+              "column": 1,
+              "offset": 1726
+            },
+            "end": {
+              "line": 42,
+              "column": 34,
+              "offset": 1759
+            }
+          }
+        },
+        {
+          "type": "link",
+          "title": null,
+          "url": "/#contact",
+          "children": [
+            {
+              "type": "text",
+              "value": "Contact me.",
+              "position": {
+                "start": {
+                  "line": 42,
+                  "column": 35,
+                  "offset": 1760
+                },
+                "end": {
+                  "line": 42,
+                  "column": 46,
+                  "offset": 1771
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 42,
+              "column": 34,
+              "offset": 1759
+            },
+            "end": {
+              "line": 42,
+              "column": 58,
+              "offset": 1783
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 42,
+          "column": 1,
+          "offset": 1726
+        },
+        "end": {
+          "line": 42,
+          "column": 58,
+          "offset": 1783
+        }
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 43,
+      "column": 1,
+      "offset": 1784
+    }
+  }
+}
