@@ -6,7 +6,7 @@ interface HumanDateTimeProps {
   format: string;
 }
 
-export function HumanDateTime({ date }: HumanDateTimeProps) {
+export default function HumanDateTime({ date }: HumanDateTimeProps) {
   if (!date) return null;
 
   return (

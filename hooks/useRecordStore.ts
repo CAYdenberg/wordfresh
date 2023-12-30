@@ -2,7 +2,7 @@ import { useState, useCallback } from "preact/hooks";
 
 import useIsMounted from "./useIsMounted.ts";
 
-import type { Schema, WithSlug } from "../server/mod.ts";
+import type { Schema, WithSlug } from "../mod.ts";
 
 interface RecordStoreItem<S extends Schema> {
   isLoading: boolean;

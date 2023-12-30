@@ -1,8 +1,5 @@
 {
   "tasks": {
-    "start": "deno run -A --watch=static/,routes/ dev.ts",
-    "provision": "deno run --allow-net --allow-read task.ts provision",
-    "ingest": "deno run --allow-net --allow-read task.ts ingest",
     "test": "deno test --allow-read --allow-env"
   },
   "compilerOptions": {

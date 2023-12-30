@@ -35,6 +35,10 @@ export { paginate } from "./pagination.ts";
 export { parseMd } from "./content/index.ts";
 export type { MdastNode } from "./content/index.ts";
 
+// serverside components
+export { Page } from "./Page.tsx";
+export { createMdComponent } from "./content/content.tsx";
+
 // hooks - import directly from './hooks'
 // components - import directly from './components'
 

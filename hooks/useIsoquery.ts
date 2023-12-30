@@ -3,9 +3,9 @@ import { stringify } from "querystring";
 
 import useIsMounted from "./useIsMounted.ts";
 
-import type { Schema, ResolvedIsoquery } from "../server/mod.ts";
+import type { Schema, ResolvedIsoquery } from "../mod.ts";
 
-export const useIsoquery = <S extends Schema>(
+const useIsoquery = <S extends Schema>(
   baseUrl: string,
   query?: ResolvedIsoquery<S>
 ) => {
@@ -52,3 +52,5 @@ export const useIsoquery = <S extends Schema>(
     resolve,
   };
 };
+
+export default useIsoquery;
