@@ -1,9 +1,9 @@
-import { useState, useCallback } from "preact/hooks";
-import { stringify } from "querystring";
+import { useState, useCallback } from "https://esm.sh/preact@10.19.2/hooks";
+import { stringify } from "https://deno.land/x/querystring@v1.0.2/mod.js";
 
 import useIsMounted from "./useIsMounted.ts";
 
-import type { Schema, ResolvedIsoquery } from "../mod.ts";
+import type { Schema, ResolvedIsoquery } from "../server/mod.ts";
 
 const useIsoquery = <S extends Schema>(
   baseUrl: string,

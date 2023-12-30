@@ -1,5 +1,4 @@
-import { z } from "zod";
-import { parse, stringify } from "querystring";
+import { z, parse, stringify } from "./deps.ts";
 
 export interface Pagination {
   page: number;

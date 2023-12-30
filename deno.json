@@ -7,24 +7,8 @@
     "jsxImportSource": "preact"
   },
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.6.1/",
     "preact": "https://esm.sh/preact@10.19.2",
     "preact/": "https://esm.sh/preact@10.19.2/",
-    "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.2.2",
-    "yaml": "https://deno.land/std@0.208.0/yaml/mod.ts",
-    "path": "https://deno.land/std@0.208.0/path/mod.ts",
-    "assert/": "https://deno.land/std@0.208.0/assert/",
-
-    "unified": "https://esm.sh/unified@10.1.2",
-    "remarkParse": "https://esm.sh/remark-parse@10.0.2",
-    "remarkDirective": "https://esm.sh/remark-directive@2.0.1",
-    "remarkFrontmatter": "https://esm.sh/remark-frontmatter@4.0.1",
-    
-    "ptera": "https://deno.land/x/ptera@v1.0.2/mod.ts",
-    "querystring": "https://deno.land/x/querystring@v1.0.2/mod.js",
-    "slugify": "https://deno.land/x/slugify@0.3.0/mod.ts",
-    "prism": "https://esm.sh/prismjs@1.29.0",
-    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts",
-    "imagemagick": "https://deno.land/x/imagemagick_deno@0.0.24/mod.ts"
+    "assert/": "https://deno.land/std@0.208.0/assert/"
   }
 }

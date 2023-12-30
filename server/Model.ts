@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "./deps.ts";
 
 interface CouchFields {
   _id: string;

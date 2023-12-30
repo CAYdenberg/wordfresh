@@ -1,4 +1,4 @@
-import { HandlerContext } from "$fresh/server.ts";
+import { FreshContext } from "./deps.ts";
 import { Model } from "./Model.ts";
 import { db, slugify } from "./mod.ts";
 
@@ -6,7 +6,7 @@ import { db, slugify } from "./mod.ts";
 export const getRecordHandler = (...models: Model<any>[]) => {
   const handler = async (
     _req: Request,
-    ctx: HandlerContext
+    ctx: FreshContext
   ): Promise<Response> => {
     const modelName: string | undefined = ctx.params.modelName;
 

@@ -1,6 +1,4 @@
-import { HandlerContext } from "$fresh/server.ts";
-import { z } from "zod";
-import { parse } from "querystring";
+import { FreshContext, z, parse } from "./deps.ts";
 
 import { Model, WithSlug } from "./Model.ts";
 import { getRecord, modelQuery } from "./db.ts";
@@ -78,7 +76,7 @@ export const Isoquery = <S>(...models: Model<any>[]) => {
 
   const handler = async (
     req: Request,
-    ctx: HandlerContext
+    ctx: FreshContext
   ): Promise<Response> => {
     const modelName = ctx.params.modelName;
     const slug: string | undefined = ctx.params.slug;

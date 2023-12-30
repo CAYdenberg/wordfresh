@@ -3,10 +3,9 @@ import {
   IMagickImage,
   initialize,
   MagickFormat,
-} from "imagemagick";
+} from "https://deno.land/x/imagemagick_deno@0.0.24/mod.ts";
 
-import { HandlerContext } from "$fresh/server.ts";
-import { z } from "zod";
+import { FreshContext, z } from "./deps.ts";
 
 import { OG_WIDTH, THUMBNAIL_WIDTH } from "./mod.ts";
 import { Model } from "./Model.ts";
@@ -147,7 +146,7 @@ export const getDesiredWidth = (
  */
 export const imageHandler = async (
   req: Request,
-  ctx: HandlerContext
+  ctx: FreshContext
 ): Promise<Response> => {
   const slug = ctx.params.slug;
   const query = new URL(req.url).search;

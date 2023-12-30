@@ -1,6 +1,6 @@
-import { Head } from "$fresh/runtime.ts";
+import { Head, ComponentChildren, Fragment } from "./deps.ts";
+
 import { getConfig } from "./mod.ts";
-import { ComponentChildren, Fragment } from "preact";
 
 import type { Author } from "./Post.tsx";
 

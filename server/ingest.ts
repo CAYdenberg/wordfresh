@@ -1,7 +1,7 @@
 import { Schema, Model } from "./Model.ts";
 import * as path from "path";
 import * as db from "./db.ts";
-import { slugify as _slugify } from "slugify";
+import { slugify as _slugify } from "./deps.ts";
 
 export const slugify = (input: string) =>
   _slugify(input, {

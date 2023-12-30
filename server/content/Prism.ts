@@ -1,4 +1,4 @@
-import Prism from "prism";
+import Prism from "https://esm.sh/prismjs@1.29.0";
 import typescript from "https://esm.sh/v131/prismjs@1.29.0/denonext/components/prism-typescript.js";
 import jsx from "https://esm.sh/v131/prismjs@1.29.0/denonext/components/prism-jsx.js";
 import tsx from "https://esm.sh/v131/prismjs@1.29.0/denonext/components/prism-tsx.js";

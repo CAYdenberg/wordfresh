@@ -1,4 +1,5 @@
-import { FunctionComponent } from "preact";
+import { FunctionComponent } from "../deps.ts";
+
 import { ResolvedIsoquery } from "../Isoquery.ts";
 import highlightCode from "./Prism.ts";
 

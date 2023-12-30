@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "preact/hooks";
+import { useEffect, useRef } from "https://esm.sh/preact@10.19.2/hooks";
 
 const useIsMounted = () => {
   const isMounted = useRef(true);

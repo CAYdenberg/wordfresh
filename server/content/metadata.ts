@@ -1,4 +1,4 @@
-import { parse } from "yaml";
+import { parseYaml } from "../deps.ts";
 import { TPostSchema } from "../Post.tsx";
 import { Isoquery } from "../Isoquery.ts";
 
@@ -32,7 +32,7 @@ export const getPostMetadata = (content: Root): Partial<TPostSchema> => {
   const nodes = flattenTree(content);
   const yaml = nodes.find((node) => node.type === "yaml") as Yaml;
 
-  const data = parse(yaml.value) as { [key in keyof TPostSchema]: string };
+  const data = parseYaml(yaml.value) as { [key in keyof TPostSchema]: string };
 
   const content_text = nodes
     .filter((node) => node.type === "text")

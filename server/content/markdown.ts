@@ -1,7 +1,7 @@
-import { unified } from "unified";
-import remarkParse from "remarkParse";
-import remarkFrontmatter from "remarkFrontmatter";
-import remarkDirective from "remarkDirective";
+import { unified } from "https://esm.sh/unified@10.1.2";
+import remarkParse from "https://esm.sh/remark-parse@10.0.2";
+import remarkFrontmatter from "https://esm.sh/remark-frontmatter@4.0.1";
+import remarkDirective from "https://esm.sh/remark-directive@2.0.1";
 
 import { Root } from "./MdastNode.ts";
 
