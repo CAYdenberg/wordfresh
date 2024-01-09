@@ -2,7 +2,7 @@ import { Author, Post } from "./Post.tsx";
 import { Image } from "./Image.ts";
 import { Model, Schema } from "./Model.ts";
 import { provision } from "./db.ts";
-import * as path from "path";
+import { path } from "./deps.ts";
 import { ingest } from "./ingest.ts";
 
 // external API

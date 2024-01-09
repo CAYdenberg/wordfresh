@@ -1,5 +1,5 @@
 import { FunctionComponent } from "preact";
-import { z } from "zod";
+import { z } from "./deps.ts";
 
 import { MangoQuery, Model } from "./Model.ts";
 import {

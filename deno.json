@@ -9,6 +9,7 @@
   "imports": {
     "preact": "https://esm.sh/preact@10.19.2",
     "preact/": "https://esm.sh/preact@10.19.2/",
-    "assert/": "https://deno.land/std@0.208.0/assert/"
+    "assert/": "https://deno.land/std@0.208.0/assert/",
+    "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.2.2"
   }
 }

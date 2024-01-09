@@ -1,5 +1,6 @@
 // std lib
 export { parse as parseYaml } from "https://deno.land/std@0.208.0/yaml/mod.ts";
+export * as path from "https://deno.land/std@0.208.0/path/mod.ts";
 
 // fresh
 export type { FreshContext } from "https://deno.land/x/fresh@1.6.1/server.ts";

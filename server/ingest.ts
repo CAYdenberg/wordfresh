@@ -1,5 +1,6 @@
+import { path } from "./deps.ts";
+
 import { Schema, Model } from "./Model.ts";
-import * as path from "path";
 import * as db from "./db.ts";
 import { slugify as _slugify } from "./deps.ts";
 

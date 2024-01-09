@@ -72,7 +72,6 @@ const createIndex = async <S extends Schema>(model: Model<S>) => {
     : [];
 
   const fullIndex = ["modelName", ...fieldsAsArray];
-  console.log(fullIndex);
 
   const result = await doRequest(`${getConfig().dbName}/_index`, "POST", {
     index: { fields: fullIndex },
@@ -231,7 +230,7 @@ export const putFile = async (
   rev: string,
   contentType: string,
   data: Uint8Array
-) => {
+): Promise<{ _id: string; _rev: string }> => {
   const res = await fetch(
     `${getConfig().dbBaseUrl}/${getConfig().dbName}/${id}/file`,
     {
@@ -246,7 +245,7 @@ export const putFile = async (
 
   if (res.status < 400) {
     const json = await res.json();
-    return { _id: json.id, _rev: json.rev };
+    return { _id: json.id as string, _rev: json.rev as string };
   }
   throw new HttpError(res.status);
 };
