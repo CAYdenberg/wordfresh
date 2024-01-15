@@ -1,4 +1,4 @@
-import { IS_BROWSER } from "https://deno.land/x/fresh@1.6.1/runtime.ts";
+import { IS_BROWSER } from "https://deno.land/x/fresh@1.6.3/runtime.ts";
 import {
   useState,
   useEffect,

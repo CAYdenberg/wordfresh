@@ -2,6 +2,10 @@
 
 Data-rich blogging with Deno and Fresh
 
+## Source
+
+The GitHub repo for this project is used only to publish on Deno.land. Please use the [GitLab repo](https://gitlab.com/lpix/wordfresh) for issues and development.
+
 ## Goals
 
 Provides a set of utilites useful for creating a blog with Deno's Fresh.
