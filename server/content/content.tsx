@@ -22,12 +22,20 @@ export const createMdComponent = (
     { node: MdastNode; queries: ResolvedIsoquery<any>[] }
   > = (
     { node, queries },
-  ) => {
+  ) => {    
     if (node.type === "text") {
       return <span>{node.value}</span>;
     }
     if (node.type === "inlineCode") {
       return <code>{node.value}</code>;
+    }
+
+
+    if (node.type === 'paragraph' && 
+      node.children.length === 1 && 
+      node.children[0].type === 'image'
+    ) {
+      return <MdComponent node={node.children[0]} queries={queries} />;
     }
 
     const childNodes = isLeaf(node)
@@ -77,6 +85,10 @@ export const createMdComponent = (
 
       case "strong": {
         return <strong>{childNodes}</strong>;
+      }
+
+      case "image": {
+        return <img src={node.url} alt={node.alt} />;
       }
 
       case "textDirective": {

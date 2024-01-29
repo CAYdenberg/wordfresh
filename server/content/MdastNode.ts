@@ -123,7 +123,20 @@ export interface InlineCode {
   value: string;
 }
 
-type Inline = Link | Emphasis | Strong | TextDirective | Text | InlineCode;
+export interface Image {
+  type: "image";
+  url: string;
+  alt: string;
+}
+
+type Inline =
+  | Link
+  | Emphasis
+  | Strong
+  | TextDirective
+  | Text
+  | InlineCode
+  | Image;
 
 export type Branch = Paragraph;
 
@@ -133,7 +146,8 @@ export type Leaf =
   | LeafDirective
   | Text
   | Code
-  | InlineCode;
+  | InlineCode
+  | Image;
 
 export type MdastNode = Root | Block | Inline;
 
