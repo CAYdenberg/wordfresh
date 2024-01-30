@@ -122,7 +122,7 @@ export const createMdComponent = (
           q.slug === node.attributes.slug &&
           q.query === node.attributes.query
         );
-        return <Component baseUrl={baseUrl} query={query} />;
+        return <Component {...node.attributes} baseUrl={baseUrl} query={query} />;
       }
     }
 
