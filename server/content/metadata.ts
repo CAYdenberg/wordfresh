@@ -25,18 +25,25 @@ export const flattenTree = (tree: MdastNode): MdastNode[] => {
   return nodes;
 };
 
+export const selectNodes =
+  (nodes: MdastNode[]) =>
+  <T extends MdastNode>(type: string) => {
+    return nodes.filter((node) => node.type === type) as T[];
+  };
+
 const normalDate = (date?: string) =>
   date ? new Date(date).toISOString() : undefined;
 
 export const getPostMetadata = (content: Root): Partial<TPostSchema> => {
-  const nodes = flattenTree(content);
-  const yaml = nodes.find((node) => node.type === "yaml") as Yaml;
+  const selector = selectNodes(flattenTree(content));
+  const yaml = selector<Yaml>("yaml");
 
-  const data = parseYaml(yaml.value) as { [key in keyof TPostSchema]: string };
+  const data = (yaml?.length ? parseYaml(yaml[0].value) : {}) as {
+    [key in keyof TPostSchema]: string;
+  };
 
-  const content_text = nodes
-    .filter((node) => node.type === "text")
-    .map((node) => (node as Text).value)
+  const content_text = selector<Text>("text")
+    .map((node) => node.value)
     .join("");
 
   return {

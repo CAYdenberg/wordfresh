@@ -1,10 +1,14 @@
 import { FunctionComponent } from "../deps.ts";
+import { getConfig } from "../mod.ts";
 
+import { selectNodes, flattenTree } from "./metadata.ts";
 import { ResolvedIsoquery } from "../Isoquery.ts";
 import highlightCode from "./Prism.ts";
+import { Heading, isLeaf, List, MdastNode, Text } from "./MdastNode.ts";
+import { slugify } from "../ingest.ts";
 
-import { Heading, isLeaf, Lang, List, MdastNode } from "./MdastNode.ts";
-import { getConfig } from "../mod.ts";
+// deno-lint-ignore no-explicit-any
+type AnyResolvedIsoquery = ResolvedIsoquery<any>;
 
 export type DirectiveComponents = Record<
   string,
@@ -14,15 +18,11 @@ export type DirectiveComponents = Record<
   >
 >;
 
-export const createMdComponent = (
-  directives: DirectiveComponents,
-) => {
-  const MdComponent: FunctionComponent<
-    // deno-lint-ignore no-explicit-any
-    { node: MdastNode; queries: ResolvedIsoquery<any>[] }
-  > = (
-    { node, queries },
-  ) => {    
+export const createMdComponent = (directives: DirectiveComponents) => {
+  const MdComponent: FunctionComponent<{
+    node: MdastNode;
+    queries: AnyResolvedIsoquery[];
+  }> = ({ node, queries }) => {
     if (node.type === "text") {
       return <span>{node.value}</span>;
     }
@@ -30,10 +30,10 @@ export const createMdComponent = (
       return <code>{node.value}</code>;
     }
 
-
-    if (node.type === 'paragraph' && 
-      node.children.length === 1 && 
-      node.children[0].type === 'image'
+    if (
+      node.type === "paragraph" &&
+      node.children.length === 1 &&
+      node.children[0].type === "image"
     ) {
       return <MdComponent node={node.children[0]} queries={queries} />;
     }
@@ -41,12 +41,22 @@ export const createMdComponent = (
     const childNodes = isLeaf(node)
       ? null
       : node.children.map((node) => (
-        <MdComponent node={node} queries={queries} />
-      ));
+          <MdComponent node={node} queries={queries} />
+        ));
 
     switch (node.type) {
       case "heading": {
-        return <MdHeading node={node}>{childNodes}</MdHeading>;
+        const plaintext = selectNodes(flattenTree(node))<Text>("text")
+          .map((node) => node.value)
+          .join("");
+        const slug = slugify(plaintext);
+        return (
+          <MdHeading node={node}>
+            <a id={`#${slug}`} href={`#${slug}`}>
+              {childNodes}
+            </a>
+          </MdHeading>
+        );
       }
 
       case "paragraph": {
@@ -60,9 +70,11 @@ export const createMdComponent = (
       case "code": {
         return (
           <pre data-lang={node.lang} className={`language-${node.lang}`}>
-            <code dangerouslySetInnerHTML={{
-              __html: highlightCode(node.value, node.lang)
-            }} />
+            <code
+              dangerouslySetInnerHTML={{
+                __html: highlightCode(node.value, node.lang),
+              }}
+            />
           </pre>
         );
       }
@@ -96,12 +108,14 @@ export const createMdComponent = (
         const Component = directives[node.name];
         if (!Component) return null;
 
-        const baseUrl =
-          `${getConfig().siteUrl}/api/${node.attributes.modelName}`;
-        const query = queries.find((q) =>
-          q.modelName === node.attributes.modelName &&
-          q.slug === node.attributes.slug &&
-          q.query === node.attributes.query
+        const baseUrl = `${getConfig().siteUrl}/api/${
+          node.attributes.modelName
+        }`;
+        const query = queries.find(
+          (q) =>
+            q.modelName === node.attributes.modelName &&
+            q.slug === node.attributes.slug &&
+            q.query === node.attributes.query
         );
         return (
           <Component {...node.attributes} baseUrl={baseUrl} query={query}>
@@ -115,23 +129,28 @@ export const createMdComponent = (
         const Component = directives[node.name];
         if (!Component) return null;
 
-        const baseUrl =
-          `${getConfig().siteUrl}/api/${node.attributes.modelName}`;
-        const query = queries.find((q) =>
-          q.modelName === node.attributes.modelName &&
-          q.slug === node.attributes.slug &&
-          q.query === node.attributes.query
+        const baseUrl = `${getConfig().siteUrl}/api/${
+          node.attributes.modelName
+        }`;
+        const query = queries.find(
+          (q) =>
+            q.modelName === node.attributes.modelName &&
+            q.slug === node.attributes.slug &&
+            q.query === node.attributes.query
         );
-        return <Component {...node.attributes} baseUrl={baseUrl} query={query} />;
+        return (
+          <Component {...node.attributes} baseUrl={baseUrl} query={query} />
+        );
       }
     }
 
     return childNodes ? <>{childNodes}</> : null;
   };
 
-  const MdHeading: FunctionComponent<{ node: Heading }> = (
-    { node, children },
-  ) => {
+  const MdHeading: FunctionComponent<{ node: Heading }> = ({
+    node,
+    children,
+  }) => {
     switch (node.depth) {
       case 3:
         return <h3>{children}</h3>;
@@ -145,10 +164,10 @@ export const createMdComponent = (
     return <h2>{children}</h2>;
   };
 
-  const MdList: FunctionComponent<
-    // deno-lint-ignore no-explicit-any
-    { node: List; queries: ResolvedIsoquery<any>[] }
-  > = ({ node, queries }) => {
+  const MdList: FunctionComponent<{
+    node: List;
+    queries: AnyResolvedIsoquery[];
+  }> = ({ node, queries }) => {
     const children = node.children.map((child) => (
       <li>
         <MdComponent node={child} queries={queries} />
