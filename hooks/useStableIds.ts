@@ -1,4 +1,4 @@
-import { useRef } from "https://esm.sh/preact@10.19.2/hooks";
+import { useRef } from "https://esm.sh/preact@10.20.1/hooks";
 
 const uids = (n: number) => {
   return Array(n)

@@ -1,17 +1,20 @@
 // std lib
-export { parse as parseYaml } from "https://deno.land/std@0.208.0/yaml/mod.ts";
-export * as path from "https://deno.land/std@0.208.0/path/mod.ts";
+export { parse as parseYaml } from "https://deno.land/std@0.221.0/yaml/mod.ts";
+export * as path from "https://deno.land/std@0.221.0/path/mod.ts";
 
 // fresh
-export type { FreshContext } from "https://deno.land/x/fresh@1.6.3/server.ts";
-export { Head } from "https://deno.land/x/fresh@1.6.3/runtime.ts";
+export type {
+  Handler,
+  FreshContext,
+} from "https://deno.land/x/fresh@1.6.8/server.ts";
+export { Head } from "https://deno.land/x/fresh@1.6.8/runtime.ts";
 
 // preact
 export type {
   FunctionComponent,
   ComponentChildren,
-} from "https://esm.sh/preact@10.19.2";
-export { Fragment } from "https://esm.sh/preact@10.19.2";
+} from "https://esm.sh/preact@10.20.1";
+export { Fragment } from "https://esm.sh/preact@10.20.1";
 
 // other
 export { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
