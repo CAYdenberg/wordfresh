@@ -1,4 +1,4 @@
-import { useState, useCallback } from "https://esm.sh/preact@10.19.2/hooks";
+import { useState, useCallback } from "https://esm.sh/preact@10.20.1/hooks";
 
 import useIsMounted from "./useIsMounted.ts";
 

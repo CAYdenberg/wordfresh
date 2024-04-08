@@ -3,7 +3,7 @@ import {
   useState,
   useEffect,
   useCallback,
-} from "https://esm.sh/preact@10.19.2/hooks";
+} from "https://esm.sh/preact@10.20.1/hooks";
 
 interface ShareData {
   url: string;

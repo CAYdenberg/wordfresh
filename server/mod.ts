@@ -23,7 +23,7 @@ export { Image } from "./Image.ts";
 
 // handlers
 export { createFeedHandler } from "./Post.tsx";
-export { imageHandler } from "./Image.ts";
+export { imageHandler, renderImage } from "./Image.ts";
 
 // helpers
 export { slugify } from "./ingest.ts";

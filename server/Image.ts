@@ -208,6 +208,45 @@ export const imageHandler = async (
     return existing;
   }
 
-  const res = await getFile(Image)(ctx.params.slug);
-  return res;
+  return getFile(Image)(ctx.params.slug);
+};
+
+export const renderImage = async (
+  filename: string,
+  render: () => Promise<Uint8Array>
+): Promise<Response> => {
+  const fileFromDb = await getFile(Image)(filename);
+  if (fileFromDb.status < 400) {
+    return fileFromDb;
+  }
+
+  try {
+    const binary = await render();
+    const metadata = await getImageMetadata(binary);
+
+    const mime = `image/${metadata.format}`;
+
+    createFile(Image)(
+      {
+        ...metadata,
+        filename,
+      },
+      mime,
+      binary
+    );
+
+    return new Response(binary, {
+      status: 200,
+      headers: {
+        "Content-Type": mime,
+      },
+    });
+  } catch (_err: unknown) {
+    return new Response(JSON.stringify({ ok: false }), {
+      status: 400,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
 };

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "https://esm.sh/preact@10.19.2/hooks";
+import { useState, useCallback } from "https://esm.sh/preact@10.20.1/hooks";
 import { stringify } from "https://deno.land/x/querystring@v1.0.2/mod.js";
 
 import useIsMounted from "./useIsMounted.ts";

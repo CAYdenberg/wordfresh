@@ -1,7 +1,7 @@
 import { assertEquals } from "assert/assert_equals.ts";
 import { flattenTree, getPostMetadata, MdastNode } from "../index.ts";
 
-import post from "./__data__/post.json" assert { type: "json" };
+import post from "./__data__/post.json" with { type: "json" };
 
 Deno.test("flattenTree", () => {
   const tree = post as MdastNode;
