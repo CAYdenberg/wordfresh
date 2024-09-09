@@ -1,6 +1,11 @@
-node_modules
-dbdata
+# dotenv environment variable files
 .env
-static/styles.css
-static/files/**
-_fresh
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Fresh build directory
+_fresh/
+# npm dependencies
+node_modules/
