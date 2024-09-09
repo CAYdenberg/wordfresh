@@ -1,0 +1,16 @@
+{
+  "tasks": {
+    "test": "deno test -A"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  },
+  "imports": {
+    "preact": "https://esm.sh/preact@10.20.1",
+    "preact/": "https://esm.sh/preact@10.20.1/",
+    "assert/": "https://deno.land/std@0.221.0/assert/",
+    "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.2.2",
+    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"
+  }
+}

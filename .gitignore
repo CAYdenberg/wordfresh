@@ -1,0 +1,6 @@
+node_modules
+dbdata
+.env
+static/styles.css
+static/files/**
+_fresh
