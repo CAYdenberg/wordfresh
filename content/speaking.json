@@ -1,0 +1,56 @@
+[
+  {
+    "title": "A Fresh Look at Isomorphic Rendering",
+    "summary": "How Deno and Fresh can save the web",
+    "slidesUrl": "https://fresh-slidedeck.deno.dev",
+    "date": "2023-11-21",
+    "img": "isomorphic_scrn"
+  },
+  {
+    "title": "Data visualization in the browser",
+    "summary": "Data is everywhere, and good visualization let's us see both broad patterns and minute detail. As we move to a world of screens, what considerations need to be made so that graphs and charts remain meaningful and usable?",
+    "slidesUrl": "https://gitlab.com/CAYdenberg/data-vis-slides",
+    "date": "2023-02-09",
+    "img": "scatter"
+  },
+  {
+    "title": "Offline-first Web Apps: Eventual Consistency",
+    "summary": "The rise of local storage on the web platform creates new opportunities - and new challenges - for users to work on the web without an internet connection and sync their data when the network is available. What mental models do we need to think about syncing and data conflict management and what technologies will help us?",
+    "videoUrl": "https://www.youtube.com/watch?v=j1xrpYWI0AY",
+    "slidesUrl": "https://docs.google.com/presentation/d/13oknSu618rGIOFPFnsXPw0rPtRFjeOuHb4OqhEgz7QI/edit",
+    "date": "2019-11-07",
+    "img": "pouch-demo-scrn"
+  },
+  {
+    "title": "Isomorphic JavaScript with React and Express",
+    "summary": "How to set up a project that renders React on both the server and client.",
+    "videoUrl": "https://www.youtube.com/watch?v=u3QMquC6U0I",
+    "slidesUrl": "https://docs.google.com/presentation/d/1iOv-6zQxR69pZxsBQy6APwrRXefkfsjao7zc1nD3N1c/edit",
+    "date": "2019-02-18",
+    "img": "isomorphic-rendering-slide"
+  },
+  {
+    "title": "The script tag: at the bottom of everything",
+    "summary": "To get started with JavaScript, you need to use the script tag. Most websites use dozens of them, and how they are used has lots of implications for performance and the security of your users.",
+    "videoUrl": "https://www.youtube.com/watch?v=F9z5awaO2gg&t=135s",
+    "slidesUrl": "https://github.com/CAYdenberg/script-at-the-bottom-of-everything",
+    "date": "2018-02-01",
+    "img": "script-capture"
+  },
+  {
+    "title": "Finite Jest: Pragmatic Unit Testing",
+    "summary": "Why you should write unit tests, and how to get started with the Jest test suite.",
+    "videoUrl": "https://www.youtube.com/watch?v=i9BOoe_F5rY&t=5s",
+    "slidesUrl": "https://github.com/CAYdenberg/finite-jest",
+    "date": "2018-01-05",
+    "img": "finite-jest-capture"
+  },
+  {
+    "title": "Why and How to Start With React",
+    "summary": "Why you should try React, and how to do it without installing and configuring a million Webpack dependencies.",
+    "videoUrl": "https://www.youtube.com/watch?v=Y_vbKlEs3Pc",
+    "slidesUrl": "https://github.com/CAYdenberg/react-start",
+    "date": "2018-09-07",
+    "img": "exjs-full"
+  }
+]
