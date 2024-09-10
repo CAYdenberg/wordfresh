@@ -16,7 +16,7 @@ export const doBuild = <S>(model: Model<S>) => {
   const create = (slug: string, item: S) => {
     const match = model.schema.safeParse(item);
     if (match.success) {
-      kv.set([model.modelName, slug], match.data).then(() => {
+      return kv.set([model.modelName, slug], match.data).then(() => {
         return true;
       });
     }
