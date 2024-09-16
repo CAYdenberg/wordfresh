@@ -16,11 +16,16 @@ export type {
 } from "https://esm.sh/preact@10.20.1";
 export { Fragment } from "https://esm.sh/preact@10.20.1";
 
-// other
+// ZOD
 export { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+
+// parsing & formating
 export {
   parse,
   stringify,
 } from "https://deno.land/x/querystring@v1.0.2/mod.js";
+export type { ParsedQuery } from "https://deno.land/x/querystring@v1.0.2/mod.js";
 
 export { slugify } from "https://deno.land/x/slugify@0.3.0/mod.ts";
+
+export { datetime } from "https://deno.land/x/ptera@v1.0.2/mod.ts";
