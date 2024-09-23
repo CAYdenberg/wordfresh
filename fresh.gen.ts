@@ -6,6 +6,7 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_speaking_id_ from "./routes/api/speaking/[id].ts";
 import * as $api_speaking_index from "./routes/api/speaking/index.ts";
+import * as $blog_slug_ from "./routes/blog/[slug].tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $Counter from "./islands/Counter.tsx";
@@ -17,6 +18,7 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/api/speaking/[id].ts": $api_speaking_id_,
     "./routes/api/speaking/index.ts": $api_speaking_index,
+    "./routes/blog/[slug].tsx": $blog_slug_,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
   },

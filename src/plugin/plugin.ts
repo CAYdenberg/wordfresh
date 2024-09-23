@@ -1,19 +1,19 @@
 import { Plugin } from "$fresh/server.ts";
 import { startDb } from "../db/denoKv.ts";
-import { Model } from "./Model.ts";
-
-interface WordfreshConfig {
-  models: Model<unknown>[];
-}
+import { WordfreshConfig, setConfig } from "./config.ts";
 
 startDb(await Deno.openKv());
 
-const wordfresh = (config: WordfreshConfig): Plugin => ({
-  name: "wordfresh",
+const wordfresh = (config: Partial<WordfreshConfig>): Plugin => {
+  setConfig(config);
 
-  buildStart: () => {
-    return Promise.resolve();
-  },
-});
+  return {
+    name: "wordfresh",
+
+    buildStart: () => {
+      return Promise.resolve();
+    },
+  };
+};
 
 export default wordfresh;
