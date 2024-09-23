@@ -36,15 +36,7 @@ You also can't trust the network. Knowing whether the user is logged in, whether
 Procedurally it might be nightmare to describe all the different paths, but in terms of state it actually becomes manageable. For a task like this I would start by designing the state, which should contain the following items:
 
 ```
-    userLoadState: 0,
-    userId: null,
-    loginModal: false,
-    properties: [{
-      id: '',
-      favourite: false,
-      favouriteLoadState: 0,
-      // ... other data ...
-    }]
+const isTrue = [1, 2, 3].indexOf(4) === -1;
 ```
 
 **Note** I use `loadState` fairly ubiquitously with the following convention: 0 - not requested, 1 - loading, 2 - loaded, -1 - error. Representing these values numerically has the advantage that we test things with a simple comparison - ie if we need to know if already have a particular piece of information we test `loadState === 2` if we want to know if we should try to get something we can do `loadState &lt; 1`.
