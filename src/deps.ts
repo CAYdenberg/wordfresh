@@ -17,7 +17,7 @@ export type {
 export { Fragment } from "https://esm.sh/preact@10.20.1";
 
 // ZOD
-export { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+export { z } from "https://deno.land/x/zod@v3.23.8/mod.ts";
 
 // parsing & formating
 export {

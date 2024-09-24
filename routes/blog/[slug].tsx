@@ -1,17 +1,29 @@
-import { FreshContext, Handler } from "$fresh/server.ts";
-import { parseMdx } from "../../src/parsers/markdown/parseMdx.ts";
+import { Handler, PageProps } from "$fresh/server.ts";
+import { Post, TPostSchema } from "../../src/models/Post.ts";
+import { getItem } from "../../src/db/denoKv.ts";
+import { Fragment } from "preact/jsx-runtime";
 
-export const handler: Handler = async (req, ctx) => {
-  const text = await Deno.readTextFile(
-    "content/posts/simpsons-imdb-ratings-by-season.mdx"
-  );
+interface Data {
+  post: TPostSchema | null;
+}
 
-  const mdast = parseMdx(text);
+export const handler: Handler<Data> = async (req, ctx) => {
+  const slug = ctx.params.slug;
+  const post = await getItem(Post)(slug);
 
-  return new Response(JSON.stringify(mdast), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-    },
+  return ctx.render({
+    post,
   });
 };
+
+export default function PostSingle({ data, url }: PageProps<Data>) {
+  if (!data.post) {
+    return <h1>Post not found</h1>;
+  }
+
+  return (
+    <Fragment>
+      <h1>This is the title of the post {data.post.title}</h1>
+    </Fragment>
+  );
+}

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "../deps.ts";
 import { parse, ParsedQuery, stringify } from "../deps.ts";
 
 export const parseQuery = <Q>(schema: z.Schema<Q>) => (query: string) => {

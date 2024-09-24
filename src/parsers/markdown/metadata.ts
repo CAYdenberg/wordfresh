@@ -1,7 +1,8 @@
 import { parseYaml } from "../../deps.ts";
-import { MdastNode, Root } from "./MdastNode.ts";
+import { TPostSchema } from "../../models/Post.ts";
+import { isLeaf, MdastNode, Root, Text, Yaml } from "./MdastNode.ts";
 
-export const flattenTree = (tree: Root): MdastNode => {
+export const flattenTree = (tree: Root): MdastNode[] => {
   let nodes: MdastNode[] = [];
 
   const recur = (node: MdastNode) => {
@@ -16,8 +17,7 @@ export const flattenTree = (tree: Root): MdastNode => {
 };
 
 export const selectNodes =
-  (nodes: MdastNode[]) =>
-  <T extends MdastNode>(type: string) => {
+  (nodes: MdastNode[]) => <T extends MdastNode>(type: string) => {
     return nodes.filter((node) => node.type === type) as T[];
   };
 
@@ -34,7 +34,7 @@ export const getPostMetadata = (content: Root): Partial<TPostSchema> => {
 
   const content_text = selector<Text>("text")
     .map((node) => node.value)
-    .join("");
+    .join(" ");
 
   return {
     title: data.title,
@@ -45,26 +45,4 @@ export const getPostMetadata = (content: Root): Partial<TPostSchema> => {
     external_url: data.external_url,
     content_text,
   };
-};
-
-export const getQueries = (content: Root): Isoquery[] => {
-  const nodes = flattenTree(content);
-
-  return nodes
-    .map((node) => {
-      if (isDirective(node) && node.attributes?.modelName) {
-        return {
-          modelName: node.attributes.modelName,
-          slug: node.attributes.slug,
-          query: node.attributes.query,
-        };
-      }
-
-      return null;
-    })
-    .filter(Boolean) as Array<{
-    modelName: string;
-    slug?: string;
-    query?: string;
-  }>;
 };

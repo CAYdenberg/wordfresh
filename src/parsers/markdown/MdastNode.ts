@@ -109,7 +109,7 @@ export interface MdxTextExpression {
   // component being rendered:
   // deno-lint-ignore no-explicit-any
   attributes: Array<Record<string, any>>;
-  children: Inline;
+  children: Inline[];
 }
 
 export interface Text {
@@ -155,7 +155,7 @@ export const isLeaf = (node: MdastNode): node is Leaf => {
 };
 
 export const isComponent = (
-  node: MdastNode
+  node: MdastNode,
 ): node is MdxJsxFlowElement | MdxTextExpression => {
   return ["mdxJsxFlowElement", "mdxTextExpression"].includes(node.type);
 };

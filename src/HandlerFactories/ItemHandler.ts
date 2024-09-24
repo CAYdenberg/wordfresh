@@ -8,15 +8,15 @@ export const ItemHandler = <S, Q>(model: Model<S, Q>): Handler => {
   const getter = getItem<S, Q>(model);
 
   return async (_req: Request, ctx: FreshContext) => {
-    const id: string = ctx.params.id;
-    const match = z.string().safeParse(id);
+    const slug: string = ctx.params.slug;
+    const match = z.string().safeParse(slug);
     if (!match.success) {
       return HttpError(400, "Item ID must be supplied to ItemRoute");
     }
 
     const result = await getter(match.data);
     if (!result) {
-      return HttpError(404, `${model.modelName} with id ${id} not found`);
+      return HttpError(404, `${model.modelName} with slug ${slug} not found`);
     }
 
     return new Response(JSON.stringify(result), {

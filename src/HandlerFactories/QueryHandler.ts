@@ -20,7 +20,7 @@ export const QueryHandler = <S, Q>(model: Model<S, Q>): Handler => {
       } catch (_err: unknown) {
         return HttpError(
           400,
-          `Invalid query parameters for model $model.modelName}`,
+          `Invalid query parameters for model ${model.modelName}`,
         );
       }
       items = model.runQuery(allItems)(queryParams);

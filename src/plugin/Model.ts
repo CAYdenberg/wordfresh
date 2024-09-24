@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "../deps.ts";
 
 interface BuildArgs<S> {
   create: (
