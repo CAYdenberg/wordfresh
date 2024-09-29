@@ -2,7 +2,7 @@ import { parseYaml } from "../../deps.ts";
 import { TPostSchema } from "../../models/Post.ts";
 import { isLeaf, MdastNode, Root, Text, Yaml } from "./MdastNode.ts";
 
-export const flattenTree = (tree: Root): MdastNode[] => {
+export const flattenTree = (tree: MdastNode): MdastNode[] => {
   let nodes: MdastNode[] = [];
 
   const recur = (node: MdastNode) => {

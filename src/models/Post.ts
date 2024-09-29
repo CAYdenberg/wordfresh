@@ -1,7 +1,7 @@
 import { path, z } from "../deps.ts";
 import { getPostMetadata, Mdast, parseMdx } from "../parsers/index.ts";
 import { slugFromFilename } from "../parsers/slugify.ts";
-import { Model } from "../plugin/Model.ts";
+import { Model } from "./Model.ts";
 import { config } from "../plugin/config.ts";
 
 export const PostSchema = z.object({

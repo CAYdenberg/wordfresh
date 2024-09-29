@@ -1,5 +1,5 @@
 import { Post } from "../models/Post.ts";
-import { Model } from "./Model.ts";
+import { Model } from "../models/Model.ts";
 
 // deno-lint-ignore no-explicit-any
 type AnyModel = Model<any, any>;

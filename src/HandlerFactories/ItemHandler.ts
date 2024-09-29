@@ -1,7 +1,7 @@
 import { FreshContext, Handler } from "$fresh/server.ts";
 import { getItem } from "../db/index.ts";
 import { z } from "../deps.ts";
-import { Model } from "../plugin/Model.ts";
+import { Model } from "../models/Model.ts";
 import { HttpError } from "./HttpError.ts";
 
 export const ItemHandler = <S, Q>(model: Model<S, Q>): Handler => {

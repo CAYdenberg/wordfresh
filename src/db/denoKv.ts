@@ -1,6 +1,6 @@
 /// <reference lib="deno.unstable" />
 
-import { Model } from "../plugin/Model.ts";
+import { Model } from "../models/Model.ts";
 
 let kv: Deno.Kv = await Deno.openKv(":memory:");
 
@@ -41,18 +41,18 @@ export const getItem =
     return result ? result.value : null;
   };
 
-export const getAll =
-  <S, Q>(model: Model<S, Q>) => async (): Promise<
-    Array<S & { id: string }>
-  > => {
-    if (!builds[model.modelName]) {
-      await doBuild(model);
-    }
+export const getAll = <S, Q>(model: Model<S, Q>) =>
+async (): Promise<
+  Array<S & { id: string }>
+> => {
+  if (!builds[model.modelName]) {
+    await doBuild(model);
+  }
 
-    const all = kv.list<S>({ prefix: [model.modelName] });
-    const results: Array<S & { id: string }> = [];
-    for await (const item of all) {
-      results.push({ ...item.value, id: item.key[1] as string });
-    }
-    return results;
-  };
+  const all = kv.list<S>({ prefix: [model.modelName] });
+  const results: Array<S & { id: string }> = [];
+  for await (const item of all) {
+    results.push({ ...item.value, id: item.key[1] as string });
+  }
+  return results;
+};

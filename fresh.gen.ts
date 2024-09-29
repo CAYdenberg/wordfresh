@@ -9,6 +9,8 @@ import * as $api_speaking_index from "./routes/api/speaking/index.ts";
 import * as $blog_slug_ from "./routes/blog/[slug].tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
+import * as $Block from "./islands/Block.tsx";
+import * as $BlockWithChildren from "./islands/BlockWithChildren.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -23,6 +25,8 @@ const manifest = {
     "./routes/index.tsx": $index,
   },
   islands: {
+    "./islands/Block.tsx": $Block,
+    "./islands/BlockWithChildren.tsx": $BlockWithChildren,
     "./islands/Counter.tsx": $Counter,
   },
   baseUrl: import.meta.url,

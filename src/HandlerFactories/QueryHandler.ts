@@ -1,7 +1,7 @@
 import { Handler } from "$fresh/server.ts";
 import { getAll } from "../db/denoKv.ts";
 import { parseQuery } from "../parsers/parseQuery.ts";
-import { Model } from "../plugin/Model.ts";
+import { Model } from "../models/Model.ts";
 import { HttpError } from "./HttpError.ts";
 
 export const QueryHandler = <S, Q>(model: Model<S, Q>): Handler => {

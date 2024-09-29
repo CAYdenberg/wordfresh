@@ -64,10 +64,14 @@ interface ThematicBreak {
 interface MdxJsxFlowElement {
   type: "mdxJsxFlowElement";
   name: string;
-  // have to use any here as we won't know the type of the
-  // component being rendered:
-  // deno-lint-ignore no-explicit-any
-  attributes: Array<Record<string, any>>;
+  attributes: Array<{
+    type: "mdxJsxAttribute";
+    name: string;
+    // have to use any here as we won't know the type of the
+    // component being rendered:
+    // deno-lint-ignore no-explicit-any
+    value: any;
+  }>;
   children: MdastNode;
 }
 
@@ -105,10 +109,14 @@ interface Strong {
 export interface MdxTextExpression {
   type: "mdxTextExpression";
   name: string;
-  // have to use any here as we won't know the type of the
-  // component being rendered:
-  // deno-lint-ignore no-explicit-any
-  attributes: Array<Record<string, any>>;
+  attributes: Array<{
+    type: "mdxJsxAttribute";
+    name: string;
+    // have to use any here as we won't know the type of the
+    // component being rendered:
+    // deno-lint-ignore no-explicit-any
+    value: any;
+  }>;
   children: Inline[];
 }
 
