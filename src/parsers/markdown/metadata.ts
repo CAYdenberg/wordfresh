@@ -1,5 +1,5 @@
 import { parseYaml } from "../../deps.ts";
-import { TPostSchema } from "../../models/Post.ts";
+import { TyPostSchema } from "../../models/Post.ts";
 import { isLeaf, MdastNode, Root, Text, Yaml } from "./MdastNode.ts";
 
 export const flattenTree = (tree: MdastNode): MdastNode[] => {
@@ -24,12 +24,12 @@ export const selectNodes =
 const normalDate = (date?: string) =>
   date ? new Date(date).toISOString() : undefined;
 
-export const getPostMetadata = (content: Root): Partial<TPostSchema> => {
+export const getPostMetadata = (content: Root): Partial<TyPostSchema> => {
   const selector = selectNodes(flattenTree(content));
   const yaml = selector<Yaml>("yaml");
 
   const data = (yaml?.length ? parseYaml(yaml[0].value) : {}) as {
-    [key in keyof TPostSchema]: string;
+    [key in keyof TyPostSchema]: string;
   };
 
   const content_text = selector<Text>("text")

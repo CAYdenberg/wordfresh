@@ -1,8 +1,11 @@
-import { path, z } from "../deps.ts";
+import { Handler, path, z } from "../deps.ts";
 import { getPostMetadata, Mdast, parseMdx } from "../parsers/index.ts";
 import { slugFromFilename } from "../parsers/slugify.ts";
 import { Model } from "./Model.ts";
 import { config } from "../plugin/config.ts";
+import { parseQuery } from "../parsers/parseQuery.ts";
+import { getAll } from "../db/index.ts";
+import { paginate, Pagination } from "../parsers/paginate.ts";
 
 export const PostSchema = z.object({
   slug: z.string(),
@@ -30,7 +33,7 @@ export interface Author {
   avatar?: string;
 }
 
-export interface TPostSchema {
+export interface TyPostSchema {
   slug: string;
   title?: string;
   summary?: string;
@@ -45,7 +48,13 @@ export interface TPostSchema {
   [key: string]: unknown;
 }
 
-export const Post: Model<TPostSchema> = {
+export const PostQuerySchema = z.object({
+  page: z.number().optional(),
+});
+
+export type TyPostQuery = z.infer<typeof PostQuerySchema>;
+
+export const Post: Model<TyPostSchema, TyPostQuery> = {
   modelName: "post",
 
   schema: PostSchema,
@@ -76,33 +85,45 @@ export const Post: Model<TPostSchema> = {
 
     return true;
   },
-  // query: (baseQuery, qs) => {
-  //   const defs: MangoQuery = {
-  //     ...baseQuery,
-  //     skip: 0,
-  //     limit: POSTS_PER_PAGE,
-  //     sort: [{ date_published: "desc" }],
-  //   };
 
-  //   if (!qs) {
-  //     return defs;
-  //   }
+  querySchema: PostQuerySchema,
 
-  //   const params = parseQuery(
-  //     z.object({
-  //       limit: z.coerce.number().optional(),
-  //       skip: z.coerce.number().optional(),
-  //     }),
-  //   )(qs);
+  runQuery: (posts) => () => {
+    return posts.filter((post) => !!post.date_published);
+  },
+};
 
-  //   if (params.limit) {
-  //     return {
-  //       ...defs,
-  //       ...params,
-  //     };
-  //   }
+export interface PostHandlerData {
+  posts: TyPostSchema[];
+  pagination: Pagination;
+}
 
-  //   return defs;
+export const postHandler: Handler<PostHandlerData> = async (req, ctx) => {
+  let queryParams: TyPostQuery;
+
+  try {
+    const url = new URL(req.url);
+    queryParams = parseQuery(PostQuerySchema)(url.search);
+  } catch (_err: unknown) {
+    queryParams = {
+      page: 1,
+    };
+  }
+
+  const posts = await getAll<TyPostSchema, TyPostQuery>(Post)();
+  const publishedPosts = Post.runQuery!(posts)(queryParams);
+  const pagination = paginate(config.postsPerPage, publishedPosts.length)(
+    req.url,
+  );
+  const postsThisPage = publishedPosts.slice(
+    pagination.params.skip,
+    pagination.params.skip + pagination.params.limit,
+  );
+
+  return ctx.render({
+    posts: postsThisPage,
+    pagination,
+  });
 };
 
 // export const createFeedHandler =
