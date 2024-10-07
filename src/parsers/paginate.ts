@@ -2,6 +2,7 @@ import { parse, stringify, z } from "../deps.ts";
 
 export interface Pagination {
   page: number;
+  totalPages: number | null;
   params: {
     limit: number;
     skip: number;
@@ -38,6 +39,7 @@ export const paginate =
 
     return {
       page,
+      totalPages: total ? Math.ceil(total / perPage) : null,
       params: {
         limit: perPage,
         skip: (page - 1) * perPage,

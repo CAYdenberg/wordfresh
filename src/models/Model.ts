@@ -12,6 +12,8 @@ export interface Model<S, Q = undefined> {
 
   schema: z.Schema<S>;
 
+  purgeBeforeBuild?: boolean;
+
   build: (args: BuildArgs<S>) => Promise<boolean>;
 
   querySchema?: z.Schema<Q>;

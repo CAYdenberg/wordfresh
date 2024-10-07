@@ -59,6 +59,8 @@ export const Post: Model<TyPostSchema, TyPostQuery> = {
 
   schema: PostSchema,
 
+  purgeBeforeBuild: true,
+
   build: async ({ create }) => {
     const dirPath = path.join(Deno.cwd(), config.contentDir, "posts");
     const dir = Deno.readDir(dirPath);

@@ -12,7 +12,15 @@ export const startDb = (db?: Deno.Kv) => {
 
 const builds: Record<string, boolean> = {};
 
-export const doBuild = <S, Q>(model: Model<S, Q>) => {
+export const deleteAll = async (modelName: string) => {
+  const all = kv.list({ prefix: [modelName] });
+  for await (const item of all) {
+    kv.delete(item.key);
+  }
+  return true;
+};
+
+export const doBuild = async <S, Q>(model: Model<S, Q>) => {
   const create = (slug: string, item: S) => {
     const match = model.schema.safeParse(item);
     if (match.success) {
@@ -23,12 +31,15 @@ export const doBuild = <S, Q>(model: Model<S, Q>) => {
     throw match.error;
   };
 
-  return model.build({ create }).then((allGood) => {
-    if (allGood) {
-      builds[model.modelName] = true;
-    }
-    return allGood;
-  });
+  if (model.purgeBeforeBuild) {
+    await deleteAll(model.modelName);
+  }
+
+  const allGood = await model.build({ create });
+  if (allGood) {
+    builds[model.modelName] = true;
+  }
+  return allGood;
 };
 
 export const getItem =

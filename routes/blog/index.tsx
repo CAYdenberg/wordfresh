@@ -11,7 +11,7 @@ export default function PostIndex({ data }: PageProps<PostHandlerData>) {
           <li key={post.slug}>{post.title} - {post.slug}</li>
         ))}
       </ul>
-      <p>Page {data.pagination.page} of {data.pagination.summary.to}</p>
+      <p>Page {data.pagination.page} of {data.pagination.totalPages}</p>
     </div>
   );
 }
