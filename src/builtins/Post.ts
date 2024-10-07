@@ -5,7 +5,7 @@ import { Model } from "../db/Model.ts";
 import { config } from "../plugin/config.ts";
 import { parseQuery } from "../parsers/parseQuery.ts";
 import { paginate } from "../handlers/index.ts";
-import { getAll } from "../db/bindings/denoKv.ts";
+import { getAll, getItem } from "../db/bindings/denoKv.ts";
 
 export const PostSchema = z.object({
   slug: z.string(),
@@ -107,6 +107,14 @@ export const resolveBlog = async (url: URL) => {
     posts: postsThisPage,
     pagination,
   };
+};
+
+export const resolvePost = async (params: Record<string, string>) => {
+  const slug = params.slug;
+  if (!slug) return null;
+
+  const post = await getItem(Post)(slug);
+  return post || null;
 };
 
 // export const createFeedHandler =
