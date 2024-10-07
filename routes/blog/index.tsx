@@ -1,17 +1,18 @@
 import { PageProps } from "$fresh/server.ts";
-import { postHandler, PostHandlerData } from "../../src/models/Post.ts";
+import { resolveBlog } from "src";
 
-export const handler = postHandler;
+export default async function PostIndex(
+  { url }: PageProps,
+) {
+  const { posts, pagination } = await resolveBlog(url);
 
-export default function PostIndex({ data }: PageProps<PostHandlerData>) {
   return (
     <div>
       <ul>
-        {data.posts.map((post) => (
-          <li key={post.slug}>{post.title} - {post.slug}</li>
-        ))}
+        {posts.map((post) => <li key={post.slug}>{post.title} - {post.slug}
+        </li>)}
       </ul>
-      <p>Page {data.pagination.page} of {data.pagination.totalPages}</p>
+      <p>Page {pagination.page} of {pagination.totalPages}</p>
     </div>
   );
 }

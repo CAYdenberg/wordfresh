@@ -1,5 +1,5 @@
 import { parseYaml } from "../../deps.ts";
-import { TyPostSchema } from "../../models/Post.ts";
+import { TyPostSchema } from "../../builtins/Post.ts";
 import { isLeaf, MdastNode, Root, Text, Yaml } from "./MdastNode.ts";
 
 export const flattenTree = (tree: MdastNode): MdastNode[] => {
@@ -17,8 +17,8 @@ export const flattenTree = (tree: MdastNode): MdastNode[] => {
 };
 
 export const selectNodes =
-  (nodes: MdastNode[]) => <T extends MdastNode>(type: string) => {
-    return nodes.filter((node) => node.type === type) as T[];
+  (nodes: MdastNode[]) => <T extends MdastNode>(...types: string[]) => {
+    return nodes.filter((node) => types.includes(node.type)) as T[];
   };
 
 const normalDate = (date?: string) =>
@@ -28,9 +28,8 @@ export const getPostMetadata = (content: Root): Partial<TyPostSchema> => {
   const selector = selectNodes(flattenTree(content));
   const yaml = selector<Yaml>("yaml");
 
-  const data = (yaml?.length ? parseYaml(yaml[0].value) : {}) as {
-    [key in keyof TyPostSchema]: string;
-  };
+  // deno-lint-ignore no-explicit-any
+  const data = yaml?.length ? parseYaml(yaml[0].value) : {} as any;
 
   const content_text = selector<Text>("text")
     .map((node) => node.value)
@@ -41,7 +40,7 @@ export const getPostMetadata = (content: Root): Partial<TyPostSchema> => {
     summary: data.summary,
     image: data.image,
     banner_image: data.banner_image,
-    date_published: normalDate(data.date),
+    date_published: normalDate(data.date_published),
     external_url: data.external_url,
     content_text,
   };

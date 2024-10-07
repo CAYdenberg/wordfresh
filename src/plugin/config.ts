@@ -1,5 +1,5 @@
-import { Post } from "../models/Post.ts";
-import { Model } from "../models/Model.ts";
+import { Post } from "../builtins/Post.ts";
+import { Model } from "../db/Model.ts";
 
 // deno-lint-ignore no-explicit-any
 type AnyModel = Model<any, any>;
@@ -20,7 +20,13 @@ const DEFAULT_CONFIG: WordfreshConfig = {
   contentDir: "content",
 };
 
-export const setConfig = (setConfig: Partial<WordfreshConfig>) => {
+export type ConfigSetter =
+  | Partial<WordfreshConfig>
+  | ((defaultConfig: WordfreshConfig) => WordfreshConfig);
+
+export const setConfig = (
+  setConfig: ConfigSetter,
+) => {
   config = {
     ...DEFAULT_CONFIG,
     ...setConfig,

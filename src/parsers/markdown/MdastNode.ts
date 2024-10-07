@@ -61,7 +61,7 @@ interface ThematicBreak {
   type: "thematicBreak";
 }
 
-interface MdxJsxFlowElement {
+export interface MdxJsxFlowElement {
   type: "mdxJsxFlowElement";
   name: string;
   attributes: Array<{

@@ -1,6 +1,7 @@
 /// <reference lib="deno.unstable" />
 
-import { Model } from "../models/Model.ts";
+import { Model } from "../Model.ts";
+import { isBuilt, markBuild } from "../Build.ts";
 
 let kv: Deno.Kv = await Deno.openKv(":memory:");
 
@@ -9,8 +10,6 @@ export const startDb = (db?: Deno.Kv) => {
     kv = db;
   }
 };
-
-const builds: Record<string, boolean> = {};
 
 export const deleteAll = async (modelName: string) => {
   const all = kv.list({ prefix: [modelName] });
@@ -37,14 +36,14 @@ export const doBuild = async <S, Q>(model: Model<S, Q>) => {
 
   const allGood = await model.build({ create });
   if (allGood) {
-    builds[model.modelName] = true;
+    markBuild(model.modelName);
   }
   return allGood;
 };
 
 export const getItem =
   <S, Q>(model: Model<S, Q>) => async (id: string): Promise<S | null> => {
-    if (!builds[model.modelName]) {
+    if (!isBuilt(model.modelName)) {
       await doBuild(model);
     }
 
@@ -56,7 +55,7 @@ export const getAll = <S, Q>(model: Model<S, Q>) =>
 async (): Promise<
   Array<S & { id: string }>
 > => {
-  if (!builds[model.modelName]) {
+  if (!isBuilt) {
     await doBuild(model);
   }
 

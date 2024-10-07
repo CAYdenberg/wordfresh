@@ -3,8 +3,8 @@ export default wordfresh;
 
 // Data retrieval
 export * from "./db/index.ts";
-export * from "./HandlerFactories/index.ts";
+export * from "./handlers/index.ts";
 
 // Model definition
-export * from "./models/index.ts";
+export * from "./builtins/index.ts";
 export * from "./parsers/index.ts";

@@ -21,8 +21,8 @@ export interface Pagination {
 }
 
 export const paginate =
-  (perPage: number, total?: number) => (url: string): Pagination => {
-    const urlParts = new URL(url);
+  (perPage: number, total?: number) => (url: URL | string): Pagination => {
+    const urlParts = typeof url === "string" ? new URL(url) : url;
     const params = parse(urlParts.search);
     const parsed = z.coerce.number().safeParse(params.page);
     const page = parsed.success && parsed.data ? Math.floor(parsed.data) : 1;

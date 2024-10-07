@@ -1,7 +1,7 @@
 ---
 title: "My awesome blog post"
 summary: "On my awesome site"
-date: "2024-09-25"
+date_published: "2024-09-25"
 ---
 
 This MDX file can contain <InlineComponent myProp="my-prop-value">inline components</InlineComponent> and block components.
@@ -12,9 +12,9 @@ It can also contain code.
 const two = 1 + 1;
 ```
 
-<BlockComponent myProp="my-prop-value" data={{ model: 'speaking', slug: 'a-fresh-look-at-isomorphic-rendering' }} />
+<BlockComponent myProp="my-prop-value" data={{ modelName: "speaking", slug: "a-fresh-look-at-isomorphic-rendering" }} />
 
-<BlockWithChildren data={[{ model: 'speaking', query: '?before=2020-01-01'}]}>
+<BlockWithChildren data={[{ modelName: "speaking", query: "?before=2020-01-01"}]}>
 - Child list item
 - Another list item
 </BlockWithChildren>

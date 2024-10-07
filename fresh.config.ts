@@ -4,5 +4,11 @@ import wordfresh from "src";
 import { Speaking } from "./models/Speaking.ts";
 
 export default defineConfig({
-  plugins: [tailwind(), wordfresh({ models: [Speaking] })],
+  plugins: [
+    tailwind(),
+    wordfresh((config) => ({
+      ...config,
+      models: [...config.models, Speaking],
+    })),
+  ],
 });

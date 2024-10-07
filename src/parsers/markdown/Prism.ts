@@ -2,7 +2,7 @@ import Prism from "https://esm.sh/prismjs@1.29.0";
 import typescript from "https://esm.sh/v131/prismjs@1.29.0/denonext/components/prism-typescript.js";
 import jsx from "https://esm.sh/v131/prismjs@1.29.0/es2022/components/prism-jsx.min.js";
 import tsx from "https://esm.sh/v131/prismjs@1.29.0/denonext/components/prism-tsx.js";
-import type { Mdast } from "../../parsers/markdown/index.ts";
+import type { Mdast } from "./index.ts";
 
 Prism.languages.typescript = typescript;
 Prism.languages.PrismJsx = jsx;

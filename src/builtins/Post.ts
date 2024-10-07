@@ -1,11 +1,11 @@
-import { Handler, path, z } from "../deps.ts";
-import { getPostMetadata, Mdast, parseMdx } from "../parsers/index.ts";
+import { path, z } from "../deps.ts";
+import { getPostMetadata, parseMdx } from "../parsers/index.ts";
 import { slugFromFilename } from "../parsers/slugify.ts";
-import { Model } from "./Model.ts";
+import { Model } from "../db/Model.ts";
 import { config } from "../plugin/config.ts";
 import { parseQuery } from "../parsers/parseQuery.ts";
-import { getAll } from "../db/index.ts";
-import { paginate, Pagination } from "../parsers/paginate.ts";
+import { paginate } from "../handlers/index.ts";
+import { getAll } from "../db/bindings/denoKv.ts";
 
 export const PostSchema = z.object({
   slug: z.string(),
@@ -33,20 +33,7 @@ export interface Author {
   avatar?: string;
 }
 
-export interface TyPostSchema {
-  slug: string;
-  title?: string;
-  summary?: string;
-  content?: Mdast.Root;
-  content_text?: string;
-  image?: string;
-  banner_image?: string;
-  date_published?: string;
-  date_modified?: string;
-  external_url?: string;
-  author?: Author;
-  [key: string]: unknown;
-}
+export type TyPostSchema = z.infer<typeof PostSchema>;
 
 export const PostQuerySchema = z.object({
   page: z.number().optional(),
@@ -95,16 +82,10 @@ export const Post: Model<TyPostSchema, TyPostQuery> = {
   },
 };
 
-export interface PostHandlerData {
-  posts: TyPostSchema[];
-  pagination: Pagination;
-}
-
-export const postHandler: Handler<PostHandlerData> = async (req, ctx) => {
+export const resolveBlog = async (url: URL) => {
   let queryParams: TyPostQuery;
 
   try {
-    const url = new URL(req.url);
     queryParams = parseQuery(PostQuerySchema)(url.search);
   } catch (_err: unknown) {
     queryParams = {
@@ -115,17 +96,17 @@ export const postHandler: Handler<PostHandlerData> = async (req, ctx) => {
   const posts = await getAll<TyPostSchema, TyPostQuery>(Post)();
   const publishedPosts = Post.runQuery!(posts)(queryParams);
   const pagination = paginate(config.postsPerPage, publishedPosts.length)(
-    req.url,
+    url,
   );
   const postsThisPage = publishedPosts.slice(
     pagination.params.skip,
     pagination.params.skip + pagination.params.limit,
   );
 
-  return ctx.render({
+  return {
     posts: postsThisPage,
     pagination,
-  });
+  };
 };
 
 // export const createFeedHandler =

@@ -1,14 +1,8 @@
-import { FunctionComponent } from "../deps.ts";
-import { config } from "../plugin/config.ts";
+import type { FunctionComponent } from "../../deps.ts";
 
-import { slugify } from "../parsers/slugify.ts";
-import {
-  flattenTree,
-  isLeaf,
-  Mdast,
-  selectNodes,
-} from "../parsers/markdown/index.ts";
-import highlightCode from "./helpers/Prism.ts";
+import { slugify } from "../slugify.ts";
+import { flattenTree, isLeaf, Mdast, selectNodes } from "./index.ts";
+import highlightCode from "./Prism.ts";
 
 // We use "any" here for props, because we do not know the type of the
 // components which are added by the user
@@ -24,7 +18,7 @@ export type UserDefinedComponents = Record<
   >
 >;
 
-export const createMd = (
+export const createMdRenderer = (
   userDefinedComponents: UserDefinedComponents = {},
 ) => {
   const MdComponent: FunctionComponent<{

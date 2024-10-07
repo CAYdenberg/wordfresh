@@ -1,10 +1,10 @@
 import { Plugin } from "$fresh/server.ts";
-import { startDb } from "../db/denoKv.ts";
-import { WordfreshConfig, setConfig } from "./config.ts";
+import { startDb } from "../db/bindings/denoKv.ts";
+import { ConfigSetter, setConfig } from "./config.ts";
 
 startDb(await Deno.openKv());
 
-const wordfresh = (config: Partial<WordfreshConfig>): Plugin => {
+const wordfresh = (config: ConfigSetter): Plugin => {
   setConfig(config);
 
   return {
