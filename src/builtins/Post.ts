@@ -49,7 +49,7 @@ export const Post: Model<TyPostSchema, TyPostQuery> = {
   purgeBeforeBuild: true,
 
   build: async ({ create }) => {
-    const dirPath = path.join(Deno.cwd(), config.contentDir, "posts");
+    const dirPath = path.join(Deno.cwd(), config.Post.dir);
     const dir = Deno.readDir(dirPath);
 
     for await (const dirEntry of dir) {
@@ -95,7 +95,7 @@ export const resolveBlog = async (url: URL) => {
 
   const posts = await getAll<TyPostSchema, TyPostQuery>(Post)();
   const publishedPosts = Post.runQuery!(posts)(queryParams);
-  const pagination = paginate(config.postsPerPage, publishedPosts.length)(
+  const pagination = paginate(config.Post.perPage, publishedPosts.length)(
     url,
   );
   const postsThisPage = publishedPosts.slice(

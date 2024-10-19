@@ -9,8 +9,6 @@ export const slugify = (input: string) =>
   });
 
 export const slugFromFilename = (filePath: string) => {
-  const basename = path.basename(filePath);
-  const extname = path.extname(filePath);
-  const filename = basename.slice(0, basename.length - extname.length);
+  const filename = path.basename(filePath, path.extname(filePath));
   return slugify(filename);
 };

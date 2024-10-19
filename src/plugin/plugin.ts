@@ -1,17 +1,23 @@
 import { Plugin } from "$fresh/server.ts";
-import { startDb } from "../db/bindings/denoKv.ts";
+import { doBuild, startDb } from "../db/bindings/denoKv.ts";
 import { ConfigSetter, setConfig } from "./config.ts";
 
 startDb(await Deno.openKv());
 
 const wordfresh = (config: ConfigSetter): Plugin => {
-  setConfig(config);
+  const resolvedConfig = setConfig(config);
 
   return {
     name: "wordfresh",
 
     buildStart: () => {
-      return Promise.resolve();
+      return Promise.all(resolvedConfig.models.map((model) => {
+        console.log(`Building ${model.modelName}...`);
+        return doBuild(model);
+      }))
+        .then(() => {
+          return;
+        });
     },
   };
 };

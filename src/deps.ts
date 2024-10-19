@@ -36,3 +36,6 @@ export { fromMarkdown } from "https://esm.sh/mdast-util-from-markdown@2.0.1";
 export { mdxFromMarkdown } from "https://esm.sh/mdast-util-mdx@3.0.0";
 export { frontmatter } from "https://esm.sh/micromark-extension-frontmatter@2.0.0";
 export { frontmatterFromMarkdown } from "https://esm.sh/mdast-util-frontmatter@2.0.1";
+
+// image utils
+export * as IM from "https://deno.land/x/imagemagick_deno@0.0.31/mod.ts";
