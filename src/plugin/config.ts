@@ -29,7 +29,7 @@ const DEFAULT_CONFIG: WordfreshConfig = {
   },
   Image: {
     dir: "content/images",
-    sizes: Array(2).fill(null).map((_, idx) => (idx + 1) * 200),
+    sizes: Array(10).fill(null).map((_, idx) => (idx + 1) * 200),
   },
 };
 

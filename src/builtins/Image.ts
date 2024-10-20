@@ -38,34 +38,31 @@ const getFormat = (magicFormat: IM.MagickFormat) => {
   return "unknown";
 };
 
-const getImageMetadata = (
+const generateImageSizes = (
   data: Uint8Array,
-): Promise<Omit<z.infer<typeof ImageSchema>, "filename" | "sizes">> => {
-  return new Promise((resolve) => {
+  sizes: number[],
+  emitMetadata: (
+    metadata: Omit<z.infer<typeof ImageSchema>, "filename" | "sizes">,
+  ) => void,
+  emitSize: (size: number, data: Uint8Array) => void,
+) => {
+  IM.initialize().then(() => {
     ImageMagick.read(data, (img: IMagickImage) => {
       const format = getFormat(img.format);
       const aspectRatio = img.width / img.height;
-      resolve({
+      emitMetadata({
         width: img.width,
         height: img.height,
         format,
         aspectRatio,
       });
-    });
-  });
-};
 
-const resizeImage = (
-  data: Uint8Array,
-  desiredWidth: number,
-): Promise<Uint8Array> => {
-  return new Promise((resolve) => {
-    ImageMagick.read(data, (img: IMagickImage) => {
-      const aspectRatio = img.width / img.height;
-      img.resize(desiredWidth, desiredWidth / aspectRatio);
-
-      img.write(img.format, (data) => {
-        resolve(data);
+      sizes.slice().sort((a, b) => b - a).forEach((size) => {
+        if (size > img.width) return;
+        img.resize(size, size / aspectRatio);
+        img.write(img.format, (data) => {
+          emitSize(size, data);
+        });
       });
     });
   });
@@ -89,35 +86,17 @@ export const Image: Model<z.infer<typeof ImageSchema>> = {
       const filename = path.basename(filePath, extname);
       const slug = slugify(filename);
       const binary = await Deno.readFile(filePath);
-      const meta = await getImageMetadata(binary);
-      const sizesToGenerate = config.Image.sizes.filter((size) =>
-        size <= meta.width
-      );
-
-      const sizes = await Promise.all(sizesToGenerate.map(async (size) => {
+      generateImageSizes(binary, config.Image.sizes, (metadata) => {
+        create(slug, {
+          ...metadata,
+          filename,
+          sizes: [],
+        });
+      }, (size, data) => {
         const destName = `${filename}_${size}${extname}`;
         // TODO: Check Fresh config for change to static directory?
         const destPath = path.join(Deno.cwd(), "static", destName);
-        try {
-          await Deno.writeFile(destPath, await resizeImage(binary, size));
-          return {
-            size,
-            filename: destName,
-            success: true,
-          };
-        } catch (_) {
-          return {
-            size,
-            filename: destName,
-            success: false,
-          };
-        }
-      }));
-
-      create(slug, {
-        ...meta,
-        filename,
-        sizes,
+        Deno.writeFile(destPath, data);
       });
     }
 
