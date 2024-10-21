@@ -2,6 +2,7 @@
 
 import { Model } from "../Model.ts";
 import { isBuilt, markBuild } from "../Build.ts";
+import { config } from "../../plugin/config.ts";
 
 let kv: Deno.Kv = await Deno.openKv(":memory:");
 
@@ -19,7 +20,9 @@ export const deleteAll = async (modelName: string) => {
   return true;
 };
 
-export const doBuild = async <S, Q>(model: Model<S, Q>) => {
+export const doBuild = async <S, Q>(
+  model: Model<S, Q>,
+) => {
   const create = (slug: string, item: S) => {
     const match = model.schema.safeParse(item);
     if (match.success) {
@@ -30,11 +33,19 @@ export const doBuild = async <S, Q>(model: Model<S, Q>) => {
     throw match.error;
   };
 
-  if (model.purgeBeforeBuild) {
+  const purge = model.purgeBeforeBuild || config.purgeAll;
+
+  if (purge) {
     await deleteAll(model.modelName);
   }
 
-  const allGood = await model.build({ create });
+  const alreadyExists = async (id: string) => {
+    if (purge) return false;
+    const result = await kv.get<S>([model.modelName, id]);
+    return !!result;
+  };
+
+  const allGood = await model.build({ create, alreadyExists });
   if (allGood) {
     markBuild(model.modelName);
   }

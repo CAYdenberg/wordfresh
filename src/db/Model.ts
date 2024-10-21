@@ -2,9 +2,10 @@ import { z } from "../deps.ts";
 
 interface BuildArgs<S> {
   create: (
-    id: string,
+    slug: string,
     item: S,
   ) => Promise<boolean>;
+  alreadyExists: (slug: string) => Promise<boolean>;
 }
 
 export interface Model<S, Q = undefined> {

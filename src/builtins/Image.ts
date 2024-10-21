@@ -14,14 +14,15 @@ export const ImageSchema = z.object({
   height: z.number(),
   aspectRatio: z.number(),
   format: z.enum(["jpg", "png", "bmp", "webp", "unknown"]),
-  sizes: z.array(z.object({
-    size: z.number(),
-    filename: z.string(),
-    success: z.boolean(),
-  })),
+  sizes: z.array(z.number()),
 });
 
-export type TImageSchema = z.infer<typeof ImageSchema>;
+export type TyImageSchema = z.infer<typeof ImageSchema>;
+
+export type TyImageMetadata = Omit<
+  z.infer<typeof ImageSchema>,
+  "filename" | "sizes"
+>;
 
 const getFormat = (magicFormat: IM.MagickFormat) => {
   switch (magicFormat) {
@@ -38,32 +39,42 @@ const getFormat = (magicFormat: IM.MagickFormat) => {
   return "unknown";
 };
 
+const createOut = async () => {
+  const { outDir } = config.Image;
+  await Deno.mkdir(path.join(Deno.cwd(), outDir), { recursive: true });
+  return true;
+};
+
 const generateImageSizes = (
   data: Uint8Array,
   sizes: number[],
-  emitMetadata: (
-    metadata: Omit<z.infer<typeof ImageSchema>, "filename" | "sizes">,
-  ) => void,
   emitSize: (size: number, data: Uint8Array) => void,
-) => {
-  IM.initialize().then(() => {
+): Promise<{
+  metadata: TyImageMetadata;
+  outsizes: number[];
+}> => {
+  return new Promise((resolve) => {
     ImageMagick.read(data, (img: IMagickImage) => {
       const format = getFormat(img.format);
       const aspectRatio = img.width / img.height;
-      emitMetadata({
+      const metadata: TyImageMetadata = {
         width: img.width,
         height: img.height,
         format,
         aspectRatio,
-      });
+      };
+      let outsizes: number[] = [];
 
-      sizes.slice().sort((a, b) => b - a).forEach((size) => {
+      [img.width, ...sizes].sort((a, b) => b - a).forEach((size) => {
         if (size > img.width) return;
         img.resize(size, size / aspectRatio);
+        outsizes = [...sizes, size];
         img.write(img.format, (data) => {
           emitSize(size, data);
         });
       });
+
+      resolve({ metadata, outsizes });
     });
   });
 };
@@ -73,7 +84,12 @@ export const Image: Model<z.infer<typeof ImageSchema>> = {
 
   schema: ImageSchema,
 
-  build: async ({ create }) => {
+  purgeBeforeBuild: false,
+
+  build: async ({ create, alreadyExists }) => {
+    await IM.initialize();
+    await createOut();
+
     const dirPath = path.join(Deno.cwd(), config.Image.dir);
     const dir = Deno.readDir(dirPath);
 
@@ -85,18 +101,26 @@ export const Image: Model<z.infer<typeof ImageSchema>> = {
       const extname = path.extname(filePath);
       const filename = path.basename(filePath, extname);
       const slug = slugify(filename);
+      if (await alreadyExists(slug)) {
+        continue;
+      }
+
       const binary = await Deno.readFile(filePath);
-      generateImageSizes(binary, config.Image.sizes, (metadata) => {
-        create(slug, {
-          ...metadata,
-          filename,
-          sizes: [],
-        });
-      }, (size, data) => {
-        const destName = `${filename}_${size}${extname}`;
-        // TODO: Check Fresh config for change to static directory?
-        const destPath = path.join(Deno.cwd(), "static", destName);
-        Deno.writeFile(destPath, data);
+      const { metadata, outsizes } = await generateImageSizes(
+        binary,
+        config.Image.sizes,
+        (size, data) => {
+          const destName = `${filename}_${size}${extname}`;
+          // TODO: Check Fresh config for change to static directory?
+          const destPath = path.join(Deno.cwd(), "static", "_img", destName);
+          Deno.writeFile(destPath, data);
+        },
+      );
+
+      create(slug, {
+        ...metadata,
+        sizes: outsizes,
+        filename,
       });
     }
 
