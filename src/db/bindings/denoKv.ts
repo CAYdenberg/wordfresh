@@ -66,7 +66,7 @@ export const getAll = <S, Q>(model: Model<S, Q>) =>
 async (): Promise<
   Array<S & { id: string }>
 > => {
-  if (!isBuilt) {
+  if (!isBuilt(model.modelName)) {
     await doBuild(model);
   }
 

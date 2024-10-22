@@ -2,7 +2,7 @@ import type { FreshContext, Handler } from "$fresh/server.ts";
 
 import { z } from "../deps.ts";
 import { Model } from "../db/Model.ts";
-import { resolveGetToHttp, WfError } from "../db/index.ts";
+import { resolveToHttp, WfError } from "../db/index.ts";
 
 export const ItemHandler = <S, Q>(model: Model<S, Q>): Handler => {
   return async (_req: Request, ctx: FreshContext) => {
@@ -12,7 +12,7 @@ export const ItemHandler = <S, Q>(model: Model<S, Q>): Handler => {
       return new WfError(400, "Item ID must be supplied to ItemRoute").toHttp();
     }
 
-    const resolved = await resolveGetToHttp({
+    const resolved = await resolveToHttp({
       modelName: model.modelName,
       slug: match.data,
     });

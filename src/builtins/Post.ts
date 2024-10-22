@@ -36,7 +36,7 @@ export interface Author {
 export type TyPostSchema = z.infer<typeof PostSchema>;
 
 export const PostQuerySchema = z.object({
-  page: z.number().optional(),
+  page: z.coerce.number().optional(),
 });
 
 export type TyPostQuery = z.infer<typeof PostQuerySchema>;

@@ -1,5 +1,8 @@
-import { path } from "../deps.ts";
-import { slugify as _slugify } from "https://deno.land/x/slugify@0.3.0/mod.ts";
+import { path, slugify as _slugify } from "../deps.ts";
+
+_slugify.extend({
+  ["_"]: "-",
+});
 
 export const slugify = (input: string) =>
   _slugify(input, {
