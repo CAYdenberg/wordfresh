@@ -1,4 +1,4 @@
-export { parseMdx } from "./parseMdx.ts";
+export { parseMd } from "./parseMd.ts";
 export { flattenTree, getPostMetadata, selectNodes } from "./metadata.ts";
 export { createMdRenderer } from "./createMdRenderer.tsx";
 

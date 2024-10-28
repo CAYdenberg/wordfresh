@@ -1,5 +1,5 @@
 import { path, z } from "../deps.ts";
-import { getPostMetadata, parseMdx } from "../parsers/index.ts";
+import { getPostMetadata, parseMd } from "../parsers/index.ts";
 import { slugFromFilename } from "../parsers/slugify.ts";
 import { Model } from "../db/Model.ts";
 import { config } from "../plugin/config.ts";
@@ -60,7 +60,7 @@ export const Post: Model<TyPostSchema, TyPostQuery> = {
       const text = await Deno.readTextFile(filePath);
       const slug = slugFromFilename(dirEntry.name);
       try {
-        const content = parseMdx(text);
+        const content = parseMd(text);
         const metadata = getPostMetadata(content);
         await create(slug, {
           slug,
@@ -68,7 +68,9 @@ export const Post: Model<TyPostSchema, TyPostQuery> = {
           content,
         });
       } catch (err) {
-        throw new Error(`Unable to parse MDX from file ${filePath}`, err);
+        throw new Error(
+          `Unable to parse MD from file ${filePath}: ${(err as Error).message}`,
+        );
       }
     }
 

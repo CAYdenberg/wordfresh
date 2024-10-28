@@ -3,7 +3,6 @@ import { Fragment } from "preact/jsx-runtime";
 import { createMdRenderer, TyPostSchema } from "src";
 
 import Block from "../../islands/Block.tsx";
-import BlockWithChildren from "../../islands/BlockWithChildren.tsx";
 import { resolvePost } from "../../src/builtins/Post.ts";
 
 interface Props {
@@ -20,7 +19,9 @@ export const handler: Handler<Props> = async (_, ctx) => {
 
 const Md = createMdRenderer({
   BlockComponent: Block,
-  BlockWithChildren,
+  InlineComponent: ({ children }) => (
+    <span style={{ background: "blue", color: "white" }}>{children}</span>
+  ),
 });
 
 export default function PostSingle({ data }: PageProps<Props>) {

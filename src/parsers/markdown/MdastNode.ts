@@ -61,18 +61,11 @@ interface ThematicBreak {
   type: "thematicBreak";
 }
 
-export interface MdxJsxFlowElement {
-  type: "mdxJsxFlowElement";
+export interface LeafDirective {
+  type: "leafDirective";
   name: string;
-  attributes: Array<{
-    type: "mdxJsxAttribute";
-    name: string;
-    // have to use any here as we won't know the type of the
-    // component being rendered:
-    // deno-lint-ignore no-explicit-any
-    value: any;
-  }>;
-  children: MdastNode;
+  // deno-lint-ignore no-explicit-any
+  attributes: Record<string, any>;
 }
 
 type Block =
@@ -84,7 +77,7 @@ type Block =
   | ListItem
   | Code
   | ThematicBreak
-  | MdxJsxFlowElement;
+  | LeafDirective;
 
 /**
  * Inline and text
@@ -106,17 +99,11 @@ interface Strong {
   children: Inline[];
 }
 
-export interface MdxTextExpression {
-  type: "mdxTextExpression";
+export interface TextDirective {
+  type: "textDirective";
   name: string;
-  attributes: Array<{
-    type: "mdxJsxAttribute";
-    name: string;
-    // have to use any here as we won't know the type of the
-    // component being rendered:
-    // deno-lint-ignore no-explicit-any
-    value: any;
-  }>;
+  // deno-lint-ignore no-explicit-any
+  attributes: Record<string, any>;
   children: Inline[];
 }
 
@@ -140,7 +127,7 @@ type Inline =
   | Link
   | Emphasis
   | Strong
-  | MdxTextExpression
+  | TextDirective
   | Text
   | InlineCode
   | Image;
@@ -150,7 +137,7 @@ export type Branch = Paragraph;
 export type Leaf =
   | Yaml
   | ThematicBreak
-  | MdxJsxFlowElement
+  | LeafDirective
   | Text
   | Code
   | InlineCode
@@ -164,6 +151,6 @@ export const isLeaf = (node: MdastNode): node is Leaf => {
 
 export const isComponent = (
   node: MdastNode,
-): node is MdxJsxFlowElement | MdxTextExpression => {
+): node is LeafDirective | TextDirective => {
   return ["mdxJsxFlowElement", "mdxTextExpression"].includes(node.type);
 };

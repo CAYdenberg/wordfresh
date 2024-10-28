@@ -67,7 +67,10 @@ export const resolveQuery = async <S>(
         data,
       };
     } catch (err) {
-      throw new WfError(400, err.message);
+      throw new WfError(
+        400,
+        (err as Error).message || "An unknown error occurred",
+      );
     }
   } else if (model.runQuery) {
     const data = model.runQuery(allItems)(undefined);

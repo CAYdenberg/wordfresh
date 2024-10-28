@@ -1,8 +1,10 @@
 import type { FunctionComponent } from "../../deps.ts";
 
 import { slugify } from "../slugify.ts";
-import { flattenTree, isLeaf, Mdast, selectNodes } from "./index.ts";
+import { flattenTree, isLeaf, selectNodes } from "./index.ts";
 import highlightCode from "./Prism.ts";
+
+import type * as Mdast from "./MdastNode.ts";
 
 // We use "any" here for props, because we do not know the type of the
 // components which are added by the user
@@ -103,20 +105,14 @@ export const createMdRenderer = (
         return <img src={node.url} alt={node.alt} />;
       }
 
-      case "mdxJsxFlowElement":
-      case "mdxTextExpression": {
+      case "leafDirective":
+      case "textDirective": {
         if (!node.name) return null;
         const Component = userDefinedComponents[node.name];
         if (!Component) return null;
 
-        const props = node.attributes.reduce((acc, prop) => {
-          acc[prop.name] = prop.value;
-          return acc;
-          // deno-lint-ignore no-explicit-any
-        }, {} as Record<string, any>);
-
         return (
-          <Component {...props}>
+          <Component {...node.attributes}>
             {childNodes}
           </Component>
         );

@@ -1,6 +1,7 @@
 import { parseYaml } from "../../deps.ts";
 import { TyPostSchema } from "../../builtins/Post.ts";
-import { isLeaf, MdastNode, Root, Text, Yaml } from "./MdastNode.ts";
+import { isLeaf } from "./MdastNode.ts";
+import type { MdastNode, Root, Text, Yaml } from "./MdastNode.ts";
 
 export const flattenTree = (tree: MdastNode): MdastNode[] => {
   let nodes: MdastNode[] = [];
