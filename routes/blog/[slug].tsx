@@ -1,37 +1,37 @@
 import { Handler, PageProps } from "$fresh/server.ts";
 import { Fragment } from "preact/jsx-runtime";
-import { createMdRenderer, TyPostSchema } from "src";
+import { createMdRenderer, ResolvedPost } from "src";
 
 import Block from "../../islands/Block.tsx";
+import BlockWithData from "../../islands/BlockWithData.tsx";
 import { resolvePost } from "../../src/builtins/Post.ts";
 
-interface Props {
-  post: TyPostSchema;
-}
+type Props = ResolvedPost;
 
 export const handler: Handler<Props> = async (_, ctx) => {
-  const post = await resolvePost(ctx.params);
-  if (!post) return ctx.renderNotFound();
-  return ctx.render({
-    post,
-  });
+  const data = await resolvePost(ctx.params);
+  if (!data) {
+    return ctx.renderNotFound();
+  }
+  return ctx.render(data);
 };
 
 const Md = createMdRenderer({
   BlockComponent: Block,
+  BlockComponentWithData: BlockWithData,
   InlineComponent: ({ children }) => (
     <span style={{ background: "blue", color: "white" }}>{children}</span>
   ),
 });
 
 export default function PostSingle({ data }: PageProps<Props>) {
-  const { post } = data;
+  const { post, wfData } = data;
 
   return (
     <Fragment>
       <h1>{post.title}</h1>
       <h2>{post.date_published}</h2>
-      <Md node={post.content} />
+      <Md node={post.content!} wfData={wfData} />
     </Fragment>
   );
 }

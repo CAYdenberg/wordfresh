@@ -5,12 +5,12 @@ import { flattenTree, isLeaf, selectNodes } from "./index.ts";
 import highlightCode from "./Prism.ts";
 
 import type * as Mdast from "./MdastNode.ts";
+import { warn } from "../../warn.ts";
+import type { AnyWfGetResolved } from "../../db/WfGet.ts";
+import { parseWf } from "../../db/WfGet.ts";
 
 // We use "any" here for props, because we do not know the type of the
 // components which are added by the user
-
-// deno-lint-ignore no-explicit-any
-type AnyResolvedData = any;
 
 export type UserDefinedComponents = Record<
   string,
@@ -25,8 +25,8 @@ export const createMdRenderer = (
 ) => {
   const MdComponent: FunctionComponent<{
     node: Mdast.MdastNode;
-    data?: AnyResolvedData[];
-  }> = ({ node, data }) => {
+    wfData?: Record<string, AnyWfGetResolved>;
+  }> = ({ node, wfData }) => {
     if (node.type === "text") {
       return <span>{node.value}</span>;
     }
@@ -39,12 +39,17 @@ export const createMdRenderer = (
       node.children.length === 1 &&
       node.children[0].type === "image"
     ) {
-      return <MdComponent node={node.children[0]} data={data} />;
+      return <MdComponent node={node.children[0]} wfData={wfData} />;
     }
 
     const childNodes = isLeaf(node)
       ? null
-      : node.children.map((node) => <MdComponent node={node} data={data} />);
+      : node.children.map((node) => (
+        <MdComponent
+          node={node}
+          wfData={wfData}
+        />
+      ));
 
     switch (node.type) {
       case "heading": {
@@ -82,7 +87,7 @@ export const createMdRenderer = (
       }
 
       case "list": {
-        return <MdList node={node} data={data} />;
+        return <MdList node={node} wfData={wfData} />;
       }
 
       case "blockquote": {
@@ -107,12 +112,26 @@ export const createMdRenderer = (
 
       case "leafDirective":
       case "textDirective": {
-        if (!node.name) return null;
+        const data = wfData || {};
         const Component = userDefinedComponents[node.name];
-        if (!Component) return null;
+        if (!node.name || !Component) {
+          warn(
+            `directive ${node.name} is not included in userDefinedComponents. Rendering null`,
+          );
+        }
+
+        const props = Object.keys(node.attributes).reduce((acc, key) => {
+          const value = node.attributes[key];
+          acc[key] = parseWf(value) ? data[value] : value;
+          return acc;
+          // props can actually be any, since we don't know what type
+          // of component this is
+
+          // deno-lint-ignore no-explicit-any
+        }, {} as Record<string, any>);
 
         return (
-          <Component {...node.attributes}>
+          <Component {...props}>
             {childNodes}
           </Component>
         );
@@ -141,11 +160,11 @@ export const createMdRenderer = (
 
   const MdList: FunctionComponent<{
     node: Mdast.List;
-    data?: AnyResolvedData[];
-  }> = ({ node, data }) => {
+    wfData?: Record<string, AnyWfGetResolved>;
+  }> = ({ node, wfData }) => {
     const children = node.children.map((child) => (
       <li>
-        <MdComponent node={child} data={data} />
+        <MdComponent node={child} wfData={wfData} />
       </li>
     ));
 

@@ -1,11 +1,17 @@
 import { assertEquals } from "assert/assert_equals.ts";
+import { assert } from "assert/assert.ts";
 
 import { Model } from "../Model.ts";
 
 import { startDb } from "../bindings/denoKv.ts";
 import { z } from "../../deps.ts";
 import { setConfig } from "../../plugin/config.ts";
-import { resolveItem, resolveQuery } from "../WfGet.ts";
+import { parseWf, resolveItem, resolveQuery, resolveWf } from "../WfGet.ts";
+import type {
+  WfGetItemResolved,
+  WfGetQuery,
+  WfGetQueryResolved,
+} from "../WfGet.ts";
 
 startDb(await Deno.openKv(":memory:"));
 
@@ -80,6 +86,7 @@ const ContactWithInvalidBuild: Model<TyContactSchema> = {
 };
 
 setConfig({
+  developerWarnings: false,
   models: [Contact, QueryableContact, ContactWithInvalidBuild],
 });
 
@@ -178,4 +185,59 @@ Deno.test("Attempt to access failing build results in an error", async () => {
       slug: "hobbit-1",
     })
   );
+});
+
+Deno.test("parseWf: Parse to WfGetItem", () => {
+  const result = parseWf("wf://contacts/hobbit-1");
+  assertEquals(result, {
+    modelName: "contacts",
+    slug: "hobbit-1",
+  });
+});
+
+Deno.test("parseWf: Parse to WfGetQuery", () => {
+  const result = parseWf(
+    "wf://queryable-contacts/?excludeNoPhone=true",
+  ) as WfGetQuery;
+  assertEquals(result?.modelName, "queryable-contacts");
+  assert(result?.query?.endsWith("excludeNoPhone=true"));
+});
+
+Deno.test("parseWf: Parse to WfGetQuery no trailing slash", () => {
+  const result = parseWf(
+    "wf://queryable-contacts?excludeNoPhone=true",
+  ) as WfGetQuery;
+  assertEquals(result?.modelName, "queryable-contacts");
+  assert(result?.query?.endsWith("excludeNoPhone=true"));
+});
+
+Deno.test("parseWf: Parse to WfGetQuery modelName only", () => {
+  const result = parseWf("wf://queryable-contacts") as WfGetQuery;
+  assertEquals(result?.modelName, "queryable-contacts");
+  assertEquals(!!result?.query, false);
+});
+
+Deno.test("parseWf: Ignore non-wf URIs", () => {
+  const result = parseWf("https://example.com");
+  assertEquals(result, null);
+});
+
+Deno.test("resolveWf: Resolve item from string", async () => {
+  const reqStr = "wf://contacts/hobbit-1";
+  const result = await resolveWf(reqStr);
+  const item = result[reqStr] as WfGetItemResolved<
+    TyContactSchema
+  >;
+  assertEquals(item.data?.name, "Frodo Baggins");
+});
+
+Deno.test("resolveWf: Resolve query from string", async () => {
+  const reqStr = "wf://queryable-contacts/?excludeNoPhone=true";
+  const result = await resolveWf(reqStr);
+  const item = result[
+    reqStr
+  ] as WfGetQueryResolved<
+    TyContactSchema
+  >;
+  assertEquals(item.data?.length, 1);
 });

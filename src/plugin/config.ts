@@ -8,6 +8,7 @@ type AnyModel = Model<any, any>;
 export interface WordfreshConfig {
   models: AnyModel[];
   purgeAll: boolean;
+  developerWarnings: boolean;
 
   Post: {
     perPage: number;
@@ -23,6 +24,7 @@ export interface WordfreshConfig {
 
 const DEFAULT_CONFIG: WordfreshConfig = {
   models: [Post, Image],
+  developerWarnings: true,
   purgeAll: false,
   Post: {
     perPage: 10,
@@ -39,7 +41,7 @@ export type ConfigSetter =
   | Partial<WordfreshConfig>
   | ((defaultConfig: WordfreshConfig) => WordfreshConfig);
 
-export let config: WordfreshConfig;
+export let config: WordfreshConfig = DEFAULT_CONFIG;
 
 export const setConfig = (
   setConfig: ConfigSetter,

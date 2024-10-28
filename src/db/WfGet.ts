@@ -3,6 +3,8 @@ import { config } from "../plugin/config.ts";
 import { WfError } from "./WfError.ts";
 import { getAll, getItem } from "./bindings/denoKv.ts";
 
+const SENTINEL = "wf:";
+
 export interface WfGetQuery {
   modelName: string;
   query?: string;
@@ -17,6 +19,34 @@ const isWfGetQuery = (input: WfGetQuery | WfGetItem): input is WfGetQuery => {
   return !!((input as WfGetQuery).query);
 };
 
+export const parseWf = (wf: string): WfGetQuery | WfGetItem | null => {
+  let url;
+  try {
+    url = new URL(wf);
+  } catch (_) {
+    return null;
+  }
+
+  if (url.protocol !== SENTINEL) return null;
+
+  const [modelName, slug] = `${url.hostname}${url.pathname}`.split("/").filter(
+    Boolean,
+  );
+  if (modelName && slug) {
+    return {
+      modelName,
+      slug,
+    };
+  } else if (modelName) {
+    return {
+      modelName,
+      query: url.search,
+    };
+  }
+
+  return null;
+};
+
 export interface WfGetQueryResolved<S> extends WfGetQuery {
   data?: Array<S & { id: string }>;
 }
@@ -24,6 +54,9 @@ export interface WfGetQueryResolved<S> extends WfGetQuery {
 export interface WfGetItemResolved<S> extends WfGetItem {
   data?: S & { id: string };
 }
+
+// deno-lint-ignore no-explicit-any
+export type AnyWfGetResolved = WfGetQueryResolved<any> | WfGetItemResolved<any>;
 
 export const resolveItem = async <S>(
   get: WfGetItem,
@@ -50,6 +83,7 @@ export const resolveQuery = async <S>(
     model.modelName === get.modelName
   );
   if (!model) {
+    console.log(get.modelName);
     throw new WfError(422);
   }
 
@@ -103,4 +137,24 @@ export const resolveToHttp = async (get: WfGetQuery | WfGetItem) => {
     }
     throw err;
   }
+};
+
+export const resolveWf = async (
+  ...request: string[]
+): Promise<
+  Record<string, AnyWfGetResolved>
+> => {
+  const resolutions = await Promise.all(request.map((wf) => {
+    const get = parseWf(wf);
+    if (!get) throw new WfError(400, "Not a WfQuery");
+    return isWfGetQuery(get) ? resolveQuery(get) : resolveItem(get);
+  }));
+
+  return request.reduce(
+    (acc, request, idx) => {
+      acc[request] = resolutions[idx];
+      return acc;
+    },
+    {} as Record<string, AnyWfGetResolved>,
+  );
 };

@@ -14,7 +14,7 @@ const two = 1 + 1;
 
 ::BlockComponent{myProp="my-prop-value"}
 
-::BlockComponentWithPreloadedData{myData="wf://demographics/shire?city=hobbiton"}
+::BlockComponentWithData{myData="wf://speaking?isBefore=2020-01-01"}
 
 In conclusion, stuff happened.
 

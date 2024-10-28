@@ -1,7 +1,8 @@
 import { parseYaml } from "../../deps.ts";
 import { TyPostSchema } from "../../builtins/Post.ts";
-import { isLeaf } from "./MdastNode.ts";
+import { isLeaf, LeafDirective, TextDirective } from "./MdastNode.ts";
 import type { MdastNode, Root, Text, Yaml } from "./MdastNode.ts";
+import { parseWf } from "../../db/index.ts";
 
 export const flattenTree = (tree: MdastNode): MdastNode[] => {
   let nodes: MdastNode[] = [];
@@ -45,4 +46,21 @@ export const getPostMetadata = (content: Root): Partial<TyPostSchema> => {
     external_url: data.external_url,
     content_text,
   };
+};
+
+export const getWfRequests = (content: Root): string[] => {
+  const selector = selectNodes(flattenTree(content));
+  const directives = selector<LeafDirective | TextDirective>(
+    "leafDirective",
+    "textDirective",
+  );
+  return directives.reduce((acc, directive) => {
+    const wf = Object.keys(directive.attributes).reduce((acc, key) => {
+      const value = directive.attributes[key];
+      if (typeof value !== "string") return acc;
+      if (!parseWf(value)) return acc;
+      return [...acc, value];
+    }, [] as string[]);
+    return [...acc, ...wf];
+  }, [] as string[]);
 };

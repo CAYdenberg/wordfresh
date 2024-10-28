@@ -1,17 +1,26 @@
 import { path, z } from "../deps.ts";
-import { getPostMetadata, parseMd } from "../parsers/index.ts";
-import { slugFromFilename } from "../parsers/slugify.ts";
-import { Model } from "../db/Model.ts";
-import { config } from "../plugin/config.ts";
-import { parseQuery } from "../parsers/parseQuery.ts";
-import { paginate } from "../handlers/index.ts";
 import { getAll, getItem } from "../db/bindings/denoKv.ts";
+import { config } from "../plugin/config.ts";
+
+import {
+  getPostMetadata,
+  getWfRequests,
+  parseMd,
+  parseQuery,
+  slugFromFilename,
+} from "../parsers/index.ts";
+import type { Mdast } from "../parsers/index.ts";
+import { paginate } from "../handlers/index.ts";
+
+import type { Model } from "../db/index.ts";
+import { resolveWf } from "../db/index.ts";
+import type { AnyWfGetResolved } from "../db/WfGet.ts";
 
 export const PostSchema = z.object({
   slug: z.string(),
   title: z.string().optional(),
   summary: z.string().optional(),
-  content: z.any(),
+  content: z.unknown(),
   content_text: z.string().optional(),
   image: z.string().optional(),
   banner_image: z.string().optional(),
@@ -25,6 +34,7 @@ export const PostSchema = z.object({
       avatar: z.string().optional(),
     })
     .optional(),
+  wf: z.array(z.string()),
 });
 
 export interface Author {
@@ -33,7 +43,9 @@ export interface Author {
   avatar?: string;
 }
 
-export type TyPostSchema = z.infer<typeof PostSchema>;
+export interface TyPostSchema extends z.infer<typeof PostSchema> {
+  content: Mdast.Root;
+}
 
 export const PostQuerySchema = z.object({
   page: z.coerce.number().optional(),
@@ -44,7 +56,11 @@ export type TyPostQuery = z.infer<typeof PostQuerySchema>;
 export const Post: Model<TyPostSchema, TyPostQuery> = {
   modelName: "post",
 
-  schema: PostSchema,
+  /**
+   * Using any here because the typing of MdastNode is too complex for Zod.
+   */
+  // deno-lint-ignore no-explicit-any
+  schema: PostSchema as any,
 
   purgeBeforeBuild: true,
 
@@ -62,9 +78,11 @@ export const Post: Model<TyPostSchema, TyPostQuery> = {
       try {
         const content = parseMd(text);
         const metadata = getPostMetadata(content);
+        const wf = getWfRequests(content);
         await create(slug, {
           slug,
           ...metadata,
+          wf,
           content,
         });
       } catch (err) {
@@ -111,12 +129,23 @@ export const resolveBlog = async (url: URL) => {
   };
 };
 
-export const resolvePost = async (params: Record<string, string>) => {
+export interface ResolvedPost {
+  post: TyPostSchema;
+  wfData: Record<string, AnyWfGetResolved>;
+}
+
+export const resolvePost = async (
+  params: Record<string, string>,
+): Promise<ResolvedPost | null> => {
   const slug = params.slug;
   if (!slug) return null;
 
   const post = await getItem(Post)(slug);
-  return post || null;
+  if (!post) return null;
+
+  const wfData = await resolveWf(...post.wf);
+
+  return { post, wfData };
 };
 
 // export const createFeedHandler =

@@ -11,7 +11,7 @@ import * as $blog_index from "./routes/blog/index.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $Block from "./islands/Block.tsx";
-import * as $BlockWithChildren from "./islands/BlockWithChildren.tsx";
+import * as $BlockWithData from "./islands/BlockWithData.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -28,7 +28,7 @@ const manifest = {
   },
   islands: {
     "./islands/Block.tsx": $Block,
-    "./islands/BlockWithChildren.tsx": $BlockWithChildren,
+    "./islands/BlockWithData.tsx": $BlockWithData,
     "./islands/Counter.tsx": $Counter,
   },
   baseUrl: import.meta.url,
