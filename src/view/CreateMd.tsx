@@ -1,12 +1,11 @@
-import type { FunctionComponent } from "../../deps.ts";
+import { slugify } from "../parsers/slugify.ts";
+import { flattenTree, isLeaf, selectNodes } from "../parsers/markdown/index.ts";
+import highlightCode from "../parsers/markdown/Prism.ts";
+import { parseWf } from "../db/WfGet.ts";
 
-import { slugify } from "../slugify.ts";
-import { flattenTree, isLeaf, selectNodes } from "./index.ts";
-import highlightCode from "./Prism.ts";
-
-import type * as Mdast from "./MdastNode.ts";
-import type { AnyWfGetResolved } from "../../db/WfGet.ts";
-import { parseWf } from "../../db/WfGet.ts";
+import type { FunctionComponent } from "../deps.ts";
+import type * as Mdast from "../parsers/markdown/MdastNode.ts";
+import type { AnyWfGetResolved } from "../db/WfGet.ts";
 
 // We use "any" here for props, because we do not know the type of the
 // components which are added by the user
@@ -19,7 +18,7 @@ export type UserDefinedComponents = Record<
   >
 >;
 
-export const createMdRenderer = (
+export const CreateMd = (
   userDefinedComponents: UserDefinedComponents = {},
 ) => {
   const MdComponent: FunctionComponent<{

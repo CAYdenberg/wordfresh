@@ -9,6 +9,13 @@ export default defineConfig({
     wordfresh((config) => ({
       ...config,
       models: [...config.models, Speaking],
+      siteTitle: "WordFresh",
+      siteDescription: "Just another Deno blogging solution",
+      siteUrl: Deno.env.get("SITE_URL") || "http://localhost:8000",
+      siteMainAuthor: {
+        name: "Casey Ydenberg",
+        email: "casey@livingpixel.io",
+      },
     })),
   ],
 });

@@ -7,7 +7,7 @@ export type {
   FreshContext,
   Handler,
 } from "https://deno.land/x/fresh@1.6.8/server.ts";
-export { Head } from "https://deno.land/x/fresh@1.6.8/runtime.ts";
+export { Head } from "https://deno.land/x/fresh@1.7.3/runtime.ts";
 
 // preact
 export type {

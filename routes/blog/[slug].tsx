@@ -1,6 +1,6 @@
 import { Handler, PageProps } from "$fresh/server.ts";
 import { Fragment } from "preact/jsx-runtime";
-import { createMdRenderer, ResolvedPost, resolvePost } from "src";
+import { CreateMd, ResolvedPost, resolvePost, WfHead } from "src";
 
 import Block from "../../islands/Block.tsx";
 import BlockWithData from "../../islands/BlockWithData.tsx";
@@ -15,7 +15,7 @@ export const handler: Handler<Props> = async (_, ctx) => {
   return ctx.render(data);
 };
 
-const Md = createMdRenderer({
+const Md = CreateMd({
   BlockComponent: Block,
   BlockComponentWithData: BlockWithData,
   InlineComponent: ({ children }) => (
@@ -23,11 +23,12 @@ const Md = createMdRenderer({
   ),
 });
 
-export default function PostSingle({ data }: PageProps<Props>) {
+export default function PostSingle({ data, url }: PageProps<Props>) {
   const { post, wfData } = data;
 
   return (
     <Fragment>
+      <WfHead url={url} pageTitle={post.title} pageDescription={post.summary} />
       <h1>{post.title}</h1>
       <h2>{post.date_published}</h2>
       <Md node={post.content!} wfData={wfData} />

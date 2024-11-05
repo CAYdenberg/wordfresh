@@ -3,3 +3,4 @@ export { resolveBlog, resolvePost } from "./resolvers.ts";
 
 export type { TyPostSchema } from "./Post.ts";
 export type { ResolvedPost } from "./resolvers.ts";
+export type { Author } from "./Post.ts";

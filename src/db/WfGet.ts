@@ -1,6 +1,6 @@
 import { parseQuery } from "../parsers/index.ts";
 import { config } from "../plugin/config.ts";
-import { warn } from "../warn.ts";
+import { warn } from "../tools.ts";
 import { WfError } from "./WfError.ts";
 import { getAll, getItem } from "./bindings/denoKv.ts";
 

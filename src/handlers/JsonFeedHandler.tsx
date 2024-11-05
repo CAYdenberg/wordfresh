@@ -1,10 +1,10 @@
 import { renderToString } from "$fresh/src/server/deps.ts";
 import { resolveBlog } from "../builtins/index.ts";
 import { resolveWf } from "../db/index.ts";
-import { createMdRenderer } from "../parsers/index.ts";
+import { CreateMd } from "../view/index.ts";
 import { config } from "../plugin/config.ts";
 
-import type { UserDefinedComponents } from "../parsers/markdown/createMdRenderer.tsx";
+import type { UserDefinedComponents } from "../view/CreateMd.tsx";
 
 export const JsonFeedHandler = (
   feedUrl: string,
@@ -16,7 +16,7 @@ async (req: Request) => {
     new URL(req.url),
     postsPerPage,
   );
-  const Md = createMdRenderer(userDefinedComponents);
+  const Md = CreateMd(userDefinedComponents);
 
   // TODO: content_html: preact render to string; remove whitespace and escape
   // line endings (JSON.stringify may do that automatically?)
