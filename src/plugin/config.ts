@@ -1,5 +1,6 @@
 import { _common } from "$std/path/_common/common.ts";
 import { Image, Post } from "../builtins/index.ts";
+import type { Author } from "../builtins/Post/Post.ts";
 import { Model } from "../db/Model.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -10,9 +11,14 @@ export interface WordfreshConfig {
   purgeAll: boolean;
   developerWarnings: boolean;
 
+  siteUrl?: string;
+  siteTitle?: string;
+  siteDescription?: string;
+  siteMainAuthor?: Author;
+
   Post: {
-    perPage: number;
     dir: string;
+    feedUrl?: string;
   };
 
   Image: {
@@ -20,6 +26,8 @@ export interface WordfreshConfig {
     outDir: string;
     sizes: number[];
   };
+
+  favicon: string;
 }
 
 const DEFAULT_CONFIG: WordfreshConfig = {
@@ -27,7 +35,6 @@ const DEFAULT_CONFIG: WordfreshConfig = {
   developerWarnings: true,
   purgeAll: false,
   Post: {
-    perPage: 10,
     dir: "content/posts",
   },
   Image: {
@@ -35,6 +42,7 @@ const DEFAULT_CONFIG: WordfreshConfig = {
     sizes: Array(10).fill(null).map((_, idx) => (idx + 1) * 200),
     outDir: "static/_img",
   },
+  favicon: "/favicon.ico",
 };
 
 export type ConfigSetter =

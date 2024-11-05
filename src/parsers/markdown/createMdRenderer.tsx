@@ -5,7 +5,6 @@ import { flattenTree, isLeaf, selectNodes } from "./index.ts";
 import highlightCode from "./Prism.ts";
 
 import type * as Mdast from "./MdastNode.ts";
-import { warn } from "../../warn.ts";
 import type { AnyWfGetResolved } from "../../db/WfGet.ts";
 import { parseWf } from "../../db/WfGet.ts";
 
@@ -115,9 +114,7 @@ export const createMdRenderer = (
         const data = wfData || {};
         const Component = userDefinedComponents[node.name];
         if (!node.name || !Component) {
-          warn(
-            `directive ${node.name} is not included in userDefinedComponents. Rendering null`,
-          );
+          return null;
         }
 
         const props = Object.keys(node.attributes).reduce((acc, key) => {

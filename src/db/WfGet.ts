@@ -1,5 +1,6 @@
 import { parseQuery } from "../parsers/index.ts";
 import { config } from "../plugin/config.ts";
+import { warn } from "../warn.ts";
 import { WfError } from "./WfError.ts";
 import { getAll, getItem } from "./bindings/denoKv.ts";
 
@@ -83,7 +84,7 @@ export const resolveQuery = async <S>(
     model.modelName === get.modelName
   );
   if (!model) {
-    console.log(get.modelName);
+    warn(`Model ${get.modelName} is not configured`);
     throw new WfError(422);
   }
 

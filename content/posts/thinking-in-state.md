@@ -1,6 +1,6 @@
 ---
 title: "Thinking in State: The Tao of Frontend Development"
-date: "2018-08-03"
+date_published: "2024-09-23"
 ---
 
 One of the side effects of working with redux is that it forces you to think about your application in terms of state instead of thinking in terms of user workflow. While state might seem like an implementation detail, with experience it becomes more a part of the design process, allowing us to accurately predict "sad path" situations that may arise when the app is in a particular state.

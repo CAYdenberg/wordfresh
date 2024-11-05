@@ -1,4 +1,4 @@
-import { parse, stringify, z } from "../deps.ts";
+import { parse, stringify, z } from "../../deps.ts";
 
 export interface Pagination {
   page: number;

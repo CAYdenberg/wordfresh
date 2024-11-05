@@ -8,6 +8,7 @@ import * as $api_speaking_slug_ from "./routes/api/speaking/[slug].ts";
 import * as $api_speaking_index from "./routes/api/speaking/index.ts";
 import * as $blog_slug_ from "./routes/blog/[slug].tsx";
 import * as $blog_index from "./routes/blog/index.tsx";
+import * as $feed_json from "./routes/feed.json.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $Block from "./islands/Block.tsx";
@@ -23,6 +24,7 @@ const manifest = {
     "./routes/api/speaking/index.ts": $api_speaking_index,
     "./routes/blog/[slug].tsx": $blog_slug_,
     "./routes/blog/index.tsx": $blog_index,
+    "./routes/feed.json.ts": $feed_json,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
   },

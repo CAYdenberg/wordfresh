@@ -1,10 +1,9 @@
 import { Handler, PageProps } from "$fresh/server.ts";
 import { Fragment } from "preact/jsx-runtime";
-import { createMdRenderer, ResolvedPost } from "src";
+import { createMdRenderer, ResolvedPost, resolvePost } from "src";
 
 import Block from "../../islands/Block.tsx";
 import BlockWithData from "../../islands/BlockWithData.tsx";
-import { resolvePost } from "../../src/builtins/Post.ts";
 
 type Props = ResolvedPost;
 
