@@ -1,9 +1,8 @@
-import { IM } from "../deps.ts";
+import { IM, path, z } from "../../deps.ts";
 
-import { path, z } from "../deps.ts";
-import { config } from "../plugin/config.ts";
-import { slugify } from "../parsers/index.ts";
-import type { Model } from "../db/index.ts";
+import { config } from "../../plugin/config.ts";
+import { slugify } from "../../parsers/index.ts";
+import type { Model } from "../../db/index.ts";
 
 type IMagickImage = IM.IMagickImage;
 const ImageMagick = IM.ImageMagick;
@@ -68,7 +67,7 @@ const generateImageSizes = (
       [img.width, ...sizes].sort((a, b) => b - a).forEach((size) => {
         if (size > img.width) return;
         img.resize(size, size / aspectRatio);
-        outsizes = [...sizes, size];
+        outsizes = [...outsizes, size];
         img.write(img.format, (data) => {
           emitSize(size, data);
         });
@@ -110,9 +109,8 @@ export const Image: Model<z.infer<typeof ImageSchema>> = {
         binary,
         config.Image.sizes,
         (size, data) => {
-          const destName = `${filename}_${size}${extname}`;
-          // TODO: Check Fresh config for change to static directory?
-          const destPath = path.join(Deno.cwd(), "static", "_img", destName);
+          const destName = `${slug}_${size}${extname}`;
+          const destPath = path.join(Deno.cwd(), config.Image.outDir, destName);
           Deno.writeFile(destPath, data);
         },
       );

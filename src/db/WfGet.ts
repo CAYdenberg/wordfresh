@@ -121,25 +121,6 @@ export const resolveQuery = async <S>(
   }
 };
 
-export const resolveToHttp = async (get: WfGetQuery | WfGetItem) => {
-  try {
-    const resolved = isWfGetQuery(get)
-      ? await resolveQuery(get)
-      : await resolveItem(get);
-    return new Response(JSON.stringify(resolved.data), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  } catch (err: WfError | Error | unknown) {
-    if ((err as WfError).isWfError) {
-      return (err as WfError).toHttp();
-    }
-    throw err;
-  }
-};
-
 export const resolveWf = async (
   ...request: string[]
 ): Promise<
@@ -158,4 +139,23 @@ export const resolveWf = async (
     },
     {} as Record<string, AnyWfGetResolved>,
   );
+};
+
+export const resolveToHttp = async (get: WfGetQuery | WfGetItem) => {
+  try {
+    const resolved = isWfGetQuery(get)
+      ? await resolveQuery(get)
+      : await resolveItem(get);
+    return new Response(JSON.stringify(resolved.data), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (err: WfError | Error | unknown) {
+    if ((err as WfError).isWfError) {
+      return (err as WfError).toHttp();
+    }
+    throw err;
+  }
 };
