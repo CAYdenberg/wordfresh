@@ -6,8 +6,8 @@ export * as path from "https://deno.land/std@0.221.0/path/mod.ts";
 export type {
   Handler,
   FreshContext,
-} from "https://deno.land/x/fresh@1.6.8/server.ts";
-export { Head } from "https://deno.land/x/fresh@1.6.8/runtime.ts";
+} from "https://deno.land/x/fresh@1.7.3/server.ts";
+export { Head } from "https://deno.land/x/fresh@1.7.3/runtime.ts";
 
 // preact
 export type {

@@ -3,7 +3,7 @@ import {
   IMagickImage,
   initialize,
   MagickFormat,
-} from "https://deno.land/x/imagemagick_deno@0.0.24/mod.ts";
+} from "https://deno.land/x/imagemagick_deno@0.0.31/mod.ts";
 
 import { FreshContext, z } from "./deps.ts";
 
