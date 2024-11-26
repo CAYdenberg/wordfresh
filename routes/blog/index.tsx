@@ -1,6 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
 import { Fragment } from "preact/jsx-runtime";
 import { resolveBlog, WfHead } from "src";
+import { Paginator } from "src/client/Paginator.tsx";
 
 export default async function PostIndex(
   { url }: PageProps,
@@ -16,7 +17,15 @@ export default async function PostIndex(
             <li key={post.slug}>{post.title} - {post.slug}</li>
           ))}
         </ul>
-        <p>Page {pagination.page} of {pagination.totalPages}</p>
+        <Paginator
+          {...pagination}
+          className={{
+            root: "flex flex-row items-center",
+            button: "text-[3rem] text-[blue]",
+            disabledButton: "text-gray-400",
+            text: "m-0 flex-grow text-center",
+          }}
+        />
       </div>
     </Fragment>
   );
