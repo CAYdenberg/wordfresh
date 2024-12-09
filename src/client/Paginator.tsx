@@ -3,7 +3,7 @@ import {
   ChevronLast,
   ChevronLeft,
   ChevronRight,
-} from "https://esm.sh/lucide-preact@0.461.0/?exports=ChevronFirst,ChevronLeft,ChevronRight,ChevronLast";
+} from "https://esm.sh/lucide-preact@0.468.0/?exports=ChevronFirst,ChevronLeft,ChevronRight,ChevronLast";
 
 import type { Pagination } from "../builtins/Post/paginate.ts";
 import type { FunctionComponent } from "../deps.ts";

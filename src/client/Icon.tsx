@@ -1,14 +1,18 @@
-import type { LucideProps } from "https://esm.sh/lucide-preact@0.461.0/";
 import type { FunctionComponent } from "../deps.ts";
 import { classNames as cn } from "./utils.ts";
 
-interface Props extends LucideProps {
-  icon: FunctionComponent<LucideProps>;
-  size: number;
+interface Props {
+  // can't find Lucide types anywhere
+  // deno-lint-ignore no-explicit-any
+  icon: FunctionComponent<any>;
+  size?: number;
   className: string;
+  color?: string;
+  strokeWidth?: number;
+  absoluteStrokeWidth?: boolean;
 }
 
-export const Icon: FunctionComponent<LucideProps> = (props) => {
+export const Icon: FunctionComponent<Props> = (props) => {
   const Icon = props.icon;
 
   return (

@@ -39,9 +39,9 @@ export const doBuild = async <S, Q>(
     await deleteAll(model.modelName);
   }
 
-  const alreadyExists = async (id: string) => {
+  const alreadyExists = async (slug: string) => {
     if (purge) return false;
-    const result = await kv.get<S>([model.modelName, id]);
+    const result = await kv.get<S>([model.modelName, slug]);
     return !!result;
   };
 
@@ -53,27 +53,27 @@ export const doBuild = async <S, Q>(
 };
 
 export const getItem =
-  <S, Q>(model: Model<S, Q>) => async (id: string): Promise<S | null> => {
+  <S, Q>(model: Model<S, Q>) => async (slug: string): Promise<S | null> => {
     if (!isBuilt(model.modelName)) {
       await doBuild(model);
     }
 
-    const result = await kv.get<S>([model.modelName, id]);
+    const result = await kv.get<S>([model.modelName, slug]);
     return result ? result.value : null;
   };
 
 export const getAll = <S, Q>(model: Model<S, Q>) =>
 async (): Promise<
-  Array<S & { id: string }>
+  Array<S & { slug: string }>
 > => {
   if (!isBuilt(model.modelName)) {
     await doBuild(model);
   }
 
   const all = kv.list<S>({ prefix: [model.modelName] });
-  const results: Array<S & { id: string }> = [];
+  const results: Array<S & { slug: string }> = [];
   for await (const item of all) {
-    results.push({ ...item.value, id: item.key[1] as string });
+    results.push({ ...item.value, slug: item.key[1] as string });
   }
   return results;
 };

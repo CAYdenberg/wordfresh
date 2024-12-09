@@ -20,8 +20,8 @@ export interface Model<S, Q = undefined> {
   querySchema?: z.Schema<Q>;
 
   runQuery?: (
-    allItems: Array<S & { id: string }>,
+    allItems: Array<S & { slug: string }>,
   ) => (
     parsedQuery: Q,
-  ) => Array<S & { id: string }>;
+  ) => Array<S & { slug: string }>;
 }

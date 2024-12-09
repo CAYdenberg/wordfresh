@@ -12,7 +12,8 @@ export const ItemHandler = <S, Q>(
     const slug: string = ctx.params[slugParam];
     const match = z.string().safeParse(slug);
     if (!match.success) {
-      return new WfError(400, "Item ID must be supplied to ItemRoute").toHttp();
+      return new WfError(400, "Item slug must be supplied to ItemRoute")
+        .toHttp();
     }
 
     const resolved = await resolveToHttp({

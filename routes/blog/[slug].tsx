@@ -2,7 +2,7 @@ import { Handler, PageProps } from "$fresh/server.ts";
 import { Fragment } from "preact/jsx-runtime";
 import { CreateMd, ResolvedPost, resolvePost, WfHead } from "src";
 import { Icon } from "src/client/Icon.tsx";
-import { Banana } from "https://esm.sh/lucide-preact@0.461.0/?exports=Banana";
+import { Banana } from "https://esm.sh/lucide-preact@0.468.0/?exports=Banana";
 
 import Block from "../../islands/Block.tsx";
 import BlockWithData from "../../islands/BlockWithData.tsx";

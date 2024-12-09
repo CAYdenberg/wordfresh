@@ -1,6 +1,7 @@
 import { path, z } from "../deps.ts";
 import type { Handler } from "$fresh/server.ts";
-import { parseQuery, WfError } from "src";
+import { WfError } from "../db/index.ts";
+import { parseQuery } from "../parsers/index.ts";
 import { resolveItem } from "../db/WfGet.ts";
 import { TyImageSchema } from "../builtins/Image/index.ts";
 import { config } from "../plugin/config.ts";
