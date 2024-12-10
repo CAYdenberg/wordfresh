@@ -15,6 +15,7 @@ export type {
   FunctionComponent,
 } from "https://esm.sh/preact@10.20.1";
 export { Fragment } from "https://esm.sh/preact@10.20.1";
+export { default as renderToString } from "https://esm.sh/v135/preact-render-to-string@6.3.1/X-ZS8q/src/index.js";
 
 // ZOD
 export { z } from "https://deno.land/x/zod@v3.23.8/mod.ts";

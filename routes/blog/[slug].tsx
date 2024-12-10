@@ -1,21 +1,15 @@
-import { Handler, PageProps } from "$fresh/server.ts";
+import { PageProps } from "$fresh/server.ts";
 import { Fragment } from "preact/jsx-runtime";
-import { CreateMd, ResolvedPost, resolvePost, WfHead } from "src";
+import { CreateMd, PostHandler, type PostHandlerProps, WfHead } from "src";
 import { Icon } from "src/client/Icon.tsx";
 import { Banana } from "https://esm.sh/lucide-preact@0.468.0/?exports=Banana";
 
 import Block from "../../islands/Block.tsx";
 import BlockWithData from "../../islands/BlockWithData.tsx";
 
-type Props = ResolvedPost;
+type Props = PostHandlerProps;
 
-export const handler: Handler<Props> = async (_, ctx) => {
-  const data = await resolvePost(ctx.params);
-  if (!data) {
-    return ctx.renderNotFound();
-  }
-  return ctx.render(data);
-};
+export const handler = PostHandler();
 
 const Md = CreateMd({
   BlockComponent: Block,

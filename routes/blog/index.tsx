@@ -1,12 +1,14 @@
 import { PageProps } from "$fresh/server.ts";
 import { Fragment } from "preact/jsx-runtime";
-import { resolveBlog, WfHead } from "src";
+import { BlogHandler, type BlogHandlerProps, WfHead } from "src";
 import { Paginator } from "src/client/Paginator.tsx";
 
-export default async function PostIndex(
-  { url }: PageProps,
+export const handler = BlogHandler(10);
+
+export default function PostIndex(
+  { url, data }: PageProps<BlogHandlerProps>,
 ) {
-  const { posts, pagination } = await resolveBlog(url, 10);
+  const { items: posts, pagination } = data;
 
   return (
     <Fragment>

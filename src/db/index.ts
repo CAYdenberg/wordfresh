@@ -1,10 +1,4 @@
-export {
-  parseWf,
-  resolveItem,
-  resolveQuery,
-  resolveToHttp,
-  resolveWf,
-} from "./WfGet.ts";
+export { parseWf, resolveItem, resolveQuery, resolveWf } from "./WfGet.ts";
 export type {
   WfGetItem,
   WfGetItemResolved,

@@ -49,11 +49,11 @@ export const parseWf = (wf: string): WfGetQuery | WfGetItem | null => {
 };
 
 export interface WfGetQueryResolved<S> extends WfGetQuery {
-  data?: Array<S & { id: string }>;
+  data?: Array<S & { slug: string }>;
 }
 
 export interface WfGetItemResolved<S> extends WfGetItem {
-  data?: S & { id: string };
+  data?: S & { slug: string };
 }
 
 // deno-lint-ignore no-explicit-any
@@ -139,23 +139,4 @@ export const resolveWf = async (
     },
     {} as Record<string, AnyWfGetResolved>,
   );
-};
-
-export const resolveToHttp = async (get: WfGetQuery | WfGetItem) => {
-  try {
-    const resolved = isWfGetQuery(get)
-      ? await resolveQuery(get)
-      : await resolveItem(get);
-    return new Response(JSON.stringify(resolved.data), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  } catch (err: WfError | Error | unknown) {
-    if ((err as WfError).isWfError) {
-      return (err as WfError).toHttp();
-    }
-    throw err;
-  }
 };
