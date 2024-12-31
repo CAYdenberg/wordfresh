@@ -1,5 +1,7 @@
 /// <reference lib="deno.unstable" />
 
+import { path } from "../../deps.ts";
+
 import { Model } from "../Model.ts";
 import { isBuilt, markBuild } from "../Build.ts";
 import { config } from "../../plugin/config.ts";
@@ -33,19 +35,21 @@ export const doBuild = async <S, Q>(
     throw match.error;
   };
 
-  const purge = model.purgeBeforeBuild || config.purgeAll;
-
-  if (purge) {
-    await deleteAll(model.modelName);
-  }
-
-  const alreadyExists = async (slug: string) => {
-    if (purge) return false;
-    const result = await kv.get<S>([model.modelName, slug]);
-    return !!result;
+  const createAttachment = async (filename: string, data: Uint8Array) => {
+    const destPath = path.join(Deno.cwd(), config.attachmentsDir, filename);
+    await Deno.writeFile(destPath, data);
+    return {
+      isWfAttachment: true as const,
+      filename,
+    };
   };
 
-  const allGood = await model.build({ create, alreadyExists });
+  const getExisting = async (slug: string) => {
+    const result = await kv.get<S>([model.modelName, slug]);
+    return result.value || null;
+  };
+
+  const allGood = await model.build({ create, createAttachment, getExisting });
   if (allGood) {
     markBuild(model.modelName);
   }

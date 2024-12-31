@@ -175,11 +175,16 @@ export const ImageHandler = (
         if (!imageData) {
           throw new WfError(404);
         }
-        const sizes = imageData.sizes.slice().sort((a, b) => a - b);
-        const size = sizes.find((size) => width !== null && size >= width) ||
+        const sizes = imageData.sizes.slice().sort((a, b) => a.size - b.size);
+        const size = sizes.find((size) =>
+          width !== null && size.size >= width
+        ) ||
           sizes[sizes.length - 1];
-        const filename = `${wfGet.slug}_${size}.${imageData.format}`;
-        const filepath = path.join(Deno.cwd(), config.Image.outDir, filename);
+        const filepath = path.join(
+          Deno.cwd(),
+          config.attachmentsDir,
+          size.attachment.filename,
+        );
         const file = await Deno.open(filepath, { read: true });
         return new Response(file.readable);
       });

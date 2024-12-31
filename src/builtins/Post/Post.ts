@@ -56,8 +56,6 @@ export const Post: Model<TyPostSchema, TyPostQuery> = {
   // deno-lint-ignore no-explicit-any
   schema: PostSchema as any,
 
-  purgeBeforeBuild: true,
-
   build: async ({ create }) => {
     const dirPath = path.join(Deno.cwd(), config.Post.dir);
     const dir = Deno.readDir(dirPath);

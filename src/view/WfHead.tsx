@@ -2,7 +2,7 @@ import { Fragment, type FunctionComponent, Head } from "../deps.ts";
 import { config } from "../plugin/config.ts";
 import type { Author } from "../builtins/index.ts";
 
-interface Props {
+export interface WfHeadProps {
   url: URL | string | null;
   pageTitle?: string;
   pageDescription?: string;
@@ -10,7 +10,7 @@ interface Props {
   pageSocialImage?: string;
 }
 
-export const WfHead: FunctionComponent<Props> = (props) => {
+export const WfHead: FunctionComponent<WfHeadProps> = (props) => {
   const title = props.pageTitle
     ? `${props.pageTitle} | ${config.siteTitle}`
     : config.siteTitle;

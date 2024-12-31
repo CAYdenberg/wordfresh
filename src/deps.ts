@@ -20,6 +20,10 @@ export { default as renderToString } from "https://esm.sh/v135/preact-render-to-
 // ZOD
 export { z } from "https://deno.land/x/zod@v3.23.8/mod.ts";
 
+// misc. database
+export { crypto } from "jsr:@std/crypto";
+export { encodeHex } from "jsr:@std/encoding/hex";
+
 // parsing & formating
 export {
   parse,

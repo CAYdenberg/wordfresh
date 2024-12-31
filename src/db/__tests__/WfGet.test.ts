@@ -32,8 +32,6 @@ const Contact: Model<TyContactSchema> = {
 
   schema: ContactSchema,
 
-  purgeBeforeBuild: true,
-
   build: ({ create }) => {
     create("hobbit-1", {
       name: "Frodo Baggins",

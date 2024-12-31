@@ -3,6 +3,8 @@ import { IM, path, z } from "../../deps.ts";
 import { config } from "../../plugin/config.ts";
 import { slugify } from "../../parsers/index.ts";
 import type { Model } from "../../db/index.ts";
+import { Attachment } from "../../db/Model.ts";
+import { getChecksum } from "../../db/checksum.ts";
 
 type IMagickImage = IM.IMagickImage;
 const ImageMagick = IM.ImageMagick;
@@ -13,14 +15,18 @@ export const ImageSchema = z.object({
   height: z.number(),
   aspectRatio: z.number(),
   format: z.enum(["jpg", "png", "bmp", "webp", "unknown"]),
-  sizes: z.array(z.number()),
+  checksum: z.string(),
+  sizes: z.array(z.object({
+    size: z.number(),
+    attachment: Attachment(),
+  })),
 });
 
 export type TyImageSchema = z.infer<typeof ImageSchema>;
 
 export type TyImageMetadata = Omit<
   z.infer<typeof ImageSchema>,
-  "filename" | "sizes"
+  "filename" | "sizes" | "checksum"
 >;
 
 const getFormat = (magicFormat: IM.MagickFormat) => {
@@ -38,20 +44,11 @@ const getFormat = (magicFormat: IM.MagickFormat) => {
   return "unknown";
 };
 
-const createOut = async () => {
-  const { outDir } = config.Image;
-  await Deno.mkdir(path.join(Deno.cwd(), outDir), { recursive: true });
-  return true;
-};
-
 const generateImageSizes = (
   data: Uint8Array,
   sizes: number[],
   emitSize: (size: number, data: Uint8Array) => void,
-): Promise<{
-  metadata: TyImageMetadata;
-  outsizes: number[];
-}> => {
+): Promise<{ metadata: TyImageMetadata; sizes: number[] }> => {
   return new Promise((resolve) => {
     ImageMagick.read(data, (img: IMagickImage) => {
       const format = getFormat(img.format);
@@ -62,6 +59,7 @@ const generateImageSizes = (
         format,
         aspectRatio,
       };
+
       let outsizes: number[] = [];
 
       [img.width, ...sizes].sort((a, b) => b - a).forEach((size) => {
@@ -73,7 +71,7 @@ const generateImageSizes = (
         });
       });
 
-      resolve({ metadata, outsizes });
+      resolve({ metadata, sizes: outsizes });
     });
   });
 };
@@ -83,11 +81,8 @@ export const Image: Model<z.infer<typeof ImageSchema>> = {
 
   schema: ImageSchema,
 
-  purgeBeforeBuild: false,
-
-  build: async ({ create, alreadyExists }) => {
+  build: async ({ create, createAttachment, getExisting }) => {
     await IM.initialize();
-    await createOut();
 
     const dirPath = path.join(Deno.cwd(), config.Image.dir);
     const dir = Deno.readDir(dirPath);
@@ -100,24 +95,36 @@ export const Image: Model<z.infer<typeof ImageSchema>> = {
       const extname = path.extname(filePath);
       const filename = path.basename(filePath, extname);
       const slug = slugify(filename);
-      if (await alreadyExists(slug)) {
+
+      const binary = await Deno.readFile(filePath);
+      const checksum = await getChecksum(binary);
+      const existing = await getExisting(slug);
+      if (existing && existing.checksum === checksum) {
         continue;
       }
 
-      const binary = await Deno.readFile(filePath);
-      const { metadata, outsizes } = await generateImageSizes(
+      const getFilename = (size: number) => `${filename}_${size}${extname}`;
+      const { metadata, sizes } = await generateImageSizes(
         binary,
         config.Image.sizes,
         (size, data) => {
-          const destName = `${slug}_${size}${extname}`;
-          const destPath = path.join(Deno.cwd(), config.Image.outDir, destName);
-          Deno.writeFile(destPath, data);
+          createAttachment(
+            getFilename(size),
+            data,
+          );
         },
       );
 
       create(slug, {
         ...metadata,
-        sizes: outsizes,
+        checksum,
+        sizes: sizes.map((size) => ({
+          size,
+          attachment: {
+            isWfAttachment: true,
+            filename: getFilename(size),
+          },
+        })),
         filename,
       });
     }

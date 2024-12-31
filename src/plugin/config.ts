@@ -8,7 +8,6 @@ type AnyModel = Model<any, any>;
 
 export interface WordfreshConfig {
   models: AnyModel[];
-  purgeAll: boolean;
   developerWarnings: boolean;
 
   siteUrl?: string;
@@ -23,26 +22,27 @@ export interface WordfreshConfig {
 
   Image: {
     dir: string;
-    outDir: string;
     sizes: number[];
   };
 
+  attachmentsDir: string;
   favicon: string;
+  purge: boolean;
 }
 
 const DEFAULT_CONFIG: WordfreshConfig = {
   models: [Post, Image],
   developerWarnings: true,
-  purgeAll: false,
   Post: {
     dir: "content/posts",
   },
   Image: {
     dir: "content/images",
     sizes: Array(10).fill(null).map((_, idx) => (idx + 1) * 200),
-    outDir: "static/_wf",
   },
+  attachmentsDir: "static/_wf",
   favicon: "/favicon.ico",
+  purge: false,
 };
 
 export type ConfigSetter =
