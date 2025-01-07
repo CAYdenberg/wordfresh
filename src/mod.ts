@@ -12,3 +12,4 @@ export * from "./handlers/index.ts";
 
 // views
 export * from "./view/index.ts";
+export * from "./client/index.ts";

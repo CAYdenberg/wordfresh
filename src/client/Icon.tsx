@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "../deps.ts";
 import { classNames as cn } from "./utils.ts";
 
-interface Props {
+export interface IconProps {
   // can't find Lucide types anywhere
   // deno-lint-ignore no-explicit-any
   icon: FunctionComponent<any>;
@@ -12,7 +12,7 @@ interface Props {
   absoluteStrokeWidth?: boolean;
 }
 
-export const Icon: FunctionComponent<Props> = (props) => {
+export const Icon: FunctionComponent<IconProps> = (props) => {
   const Icon = props.icon;
 
   return (

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "https://esm.sh/preact@10.20.1/hooks";
-import useIsMounted from "./useIsMounted.ts";
+import { useIsMounted } from "./useIsMounted.ts";
 
-export enum Status {
+export enum FetchStatus {
   Ready = "Ready",
   Loading = "Loading",
   Ok = "Ok",
@@ -9,7 +9,7 @@ export enum Status {
 }
 
 interface State<DTy> {
-  status: Status;
+  status: FetchStatus;
   data?: DTy;
   error?: number;
 }
@@ -20,13 +20,13 @@ export const useFetch = <DTy>(
   const isMounted = useIsMounted();
   const [state, setState] = useState<State<DTy>>({
     data: initialData,
-    status: initialData ? Status.Ok : Status.Ready,
+    status: initialData ? FetchStatus.Ok : FetchStatus.Ready,
   });
 
   const doRequest = useCallback((url: string) => {
     setState((init) => ({
       ...init,
-      status: Status.Loading,
+      FetchStatus: FetchStatus.Loading,
     }));
 
     fetch(url, {
@@ -39,7 +39,7 @@ export const useFetch = <DTy>(
       if (res.status >= 400) {
         setState((init) => ({
           ...init,
-          status: Status.Error,
+          status: FetchStatus.Error,
           error: res.status,
         }));
         return;
@@ -48,7 +48,7 @@ export const useFetch = <DTy>(
     }).then((data: DTy | undefined) => {
       if (data) {
         setState(() => ({
-          status: Status.Ok,
+          status: FetchStatus.Ok,
           data,
         }));
       }
@@ -56,7 +56,7 @@ export const useFetch = <DTy>(
       if (!isMounted) return;
       setState((init) => ({
         ...init,
-        status: Status.Error,
+        FetchStatus: FetchStatus.Error,
         error: 0,
       }));
     });

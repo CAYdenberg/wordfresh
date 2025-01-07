@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "https://esm.sh/preact@10.20.1/hooks";
 
-const useIsMounted = () => {
+export const useIsMounted = () => {
   const isMounted = useRef(true);
 
   useEffect(() => {
@@ -13,5 +13,3 @@ const useIsMounted = () => {
 
   return isMounted.current;
 };
-
-export default useIsMounted;

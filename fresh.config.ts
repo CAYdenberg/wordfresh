@@ -16,7 +16,7 @@ export default defineConfig({
         name: "Casey Ydenberg",
         email: "casey@livingpixel.io",
       },
-      purge: true,
+      // purge: true,
     })),
   ],
 });

@@ -88,8 +88,4 @@ export const Post: Model<TyPostSchema, TyPostQuery> = {
   },
 
   querySchema: PostQuerySchema,
-
-  runQuery: (posts) => () => {
-    return posts.filter((post) => !!post.date_published);
-  },
 };

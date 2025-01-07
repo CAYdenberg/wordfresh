@@ -5,12 +5,12 @@ import {
   ChevronRight,
 } from "https://esm.sh/lucide-preact@0.468.0/?exports=ChevronFirst,ChevronLeft,ChevronRight,ChevronLast";
 
-import type { Pagination } from "../builtins/Post/paginate.ts";
+import type { Pagination } from "../handlers/pipeline.ts";
 import type { FunctionComponent } from "../deps.ts";
 import { Icon } from "./Icon.tsx";
-import { classNames as cn } from "src/client/utils.ts";
+import { classNames as cn } from "./utils.ts";
 
-interface Props extends Pagination {
+export interface PaginatorProps extends Pagination {
   className?: {
     root?: string;
     button?: string;
@@ -19,7 +19,7 @@ interface Props extends Pagination {
   };
 }
 
-export const Paginator: FunctionComponent<Props> = (
+export const Paginator: FunctionComponent<PaginatorProps> = (
   { url, summary, className },
 ) => {
   return (
