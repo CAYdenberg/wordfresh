@@ -3,10 +3,8 @@ import {
   useEffect,
   useRef,
 } from "https://esm.sh/preact@10.20.1/hooks";
-
-import type { WfGetItem, WfGetItemResolved } from "src";
-
 import { useFetch } from "./useFetch.ts";
+import type { WfGetItem, WfGetItemResolved } from "../src/index.ts";
 
 const serializeQuery = (apiPath: string, query: WfGetItem) => {
   return `${apiPath}/${query.modelName}/${query.slug}`;

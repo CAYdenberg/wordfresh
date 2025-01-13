@@ -1,5 +1,5 @@
-import type { FunctionComponent } from "../src/deps.ts";
 import { classNames as cn } from "./utils.ts";
+import type { FunctionComponent } from "../src/deps.ts";
 
 export interface IconProps {
   // can't find Lucide types anywhere

@@ -3,10 +3,8 @@ import {
   useEffect,
   useRef,
 } from "https://esm.sh/preact@10.20.1/hooks";
-
-import type { WfGetQuery, WfGetQueryResolved } from "src";
-
 import { useFetch } from "./useFetch.ts";
+import type { WfGetQuery, WfGetQueryResolved } from "../src/index.ts";
 
 const serializeQuery = (apiPath: string, query: WfGetQuery) => {
   const search = query.query?.startsWith("?")

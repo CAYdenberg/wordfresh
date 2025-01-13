@@ -4,11 +4,10 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "https://esm.sh/lucide-preact@0.299.0/?exports=ChevronFirst,ChevronLeft,ChevronRight,ChevronLast";
-
-import type { Pagination } from "../src/handlers/pipeline.ts";
-import type { FunctionComponent } from "../src/deps.ts";
 import { Icon } from "./Icon.tsx";
 import { classNames as cn } from "./utils.ts";
+import type { Pagination } from "../src/handlers/pipeline.ts";
+import type { FunctionComponent } from "../src/deps.ts";
 
 export interface PaginatorProps extends Pagination {
   className?: {
