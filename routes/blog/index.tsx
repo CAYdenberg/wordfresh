@@ -1,7 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
 import { Fragment } from "preact/jsx-runtime";
 import { BlogHandler, type BlogHandlerProps, WfHead } from "src";
-import { Paginator } from "src/client/Paginator.tsx";
+import { Paginator } from "../../client/Paginator.tsx";
 
 export const handler = BlogHandler(10);
 

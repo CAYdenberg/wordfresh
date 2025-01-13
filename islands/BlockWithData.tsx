@@ -13,7 +13,7 @@ const BlockWithData: FunctionComponent<Props> = (
   if (!myData.data) return <h2>Unable to retrieve talks</h2>;
   return (
     <ul>
-      {myData.data?.map((talk) => <li key={talk.id}>{talk.title}</li>)}
+      {myData.data?.map((talk) => <li key={talk.slug}>{talk.title}</li>)}
     </ul>
   );
 };

@@ -1,4 +1,4 @@
-import type { FunctionComponent } from "../deps.ts";
+import type { FunctionComponent } from "../src/deps.ts";
 import { classNames as cn } from "./utils.ts";
 
 export interface IconProps {

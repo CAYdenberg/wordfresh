@@ -23,8 +23,8 @@
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
     "$std/": "https://deno.land/std@0.216.0/",
     "assert/": "https://deno.land/std@0.221.0/assert/",
-    "src": "./src/mod.ts",
-    "src/client/": "./src/client/",
+    "src": "./mod.ts",
+    "src/client/": "./client/",
     "zod": "https://deno.land/x/zod@v3.23.8/mod.ts"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
