@@ -6,7 +6,7 @@ import { Model } from "../Model.ts";
 import { isBuilt, markBuild } from "../Build.ts";
 import { config } from "../../plugin/config.ts";
 
-let kv: Deno.Kv = await Deno.openKv(":memory:");
+let kv: Deno.Kv;
 
 export const startDb = (db?: Deno.Kv) => {
   if (db) {
