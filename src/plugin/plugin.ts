@@ -30,7 +30,7 @@ const wordfresh = (config: ConfigSetter): Plugin => {
 
       await Promise.all(resolvedConfig.models.map((model) => {
         console.log(`Building ${model.modelName}...`);
-        return doBuild(model);
+        return doBuild(model, true);
       }));
     },
   };

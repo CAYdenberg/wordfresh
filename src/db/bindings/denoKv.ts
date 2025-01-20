@@ -24,6 +24,7 @@ export const deleteAll = async (modelName: string) => {
 
 export const doBuild = async <S, Q>(
   model: Model<S, Q>,
+  buildAttachments: boolean,
 ) => {
   const create = (slug: string, item: S) => {
     const match = model.schema.safeParse(item);
@@ -36,6 +37,13 @@ export const doBuild = async <S, Q>(
   };
 
   const createAttachment = async (filename: string, data: Uint8Array) => {
+    if (!buildAttachments) {
+      return {
+        isWfAttachment: true as const,
+        filename,
+      };
+    }
+
     const destPath = path.join(Deno.cwd(), config.attachmentsDir, filename);
     await Deno.writeFile(destPath, data);
     return {
@@ -59,7 +67,7 @@ export const doBuild = async <S, Q>(
 export const getItem =
   <S, Q>(model: Model<S, Q>) => async (slug: string): Promise<S | null> => {
     if (!isBuilt(model.modelName)) {
-      await doBuild(model);
+      await doBuild(model, config.buildAttachments);
     }
 
     const result = await kv.get<S>([model.modelName, slug]);
@@ -71,7 +79,7 @@ async (): Promise<
   Array<S & { slug: string }>
 > => {
   if (!isBuilt(model.modelName)) {
-    await doBuild(model);
+    await doBuild(model, config.buildAttachments);
   }
 
   const all = kv.list<S>({ prefix: [model.modelName] });

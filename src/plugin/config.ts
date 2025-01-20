@@ -26,6 +26,7 @@ export interface WordfreshConfig {
   };
 
   attachmentsDir: string;
+  buildAttachments: boolean;
   favicon: string;
   purge: boolean;
 }
@@ -40,6 +41,7 @@ const DEFAULT_CONFIG: WordfreshConfig = {
     dir: "content/images",
     sizes: Array(10).fill(null).map((_, idx) => (idx + 1) * 200),
   },
+  buildAttachments: true,
   attachmentsDir: "static/_wf",
   favicon: "/favicon.ico",
   purge: false,
