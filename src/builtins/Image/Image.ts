@@ -108,7 +108,6 @@ export const Image: Model<z.infer<typeof ImageSchema>> = {
         binary,
         config.Image.sizes,
         (size, data) => {
-          console.log(`Creating ${getFilename(size)}`);
           createAttachment(
             getFilename(size),
             data,

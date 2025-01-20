@@ -40,7 +40,7 @@ export const WfHead: FunctionComponent<WfHeadProps> = (props) => {
           <Fragment>
             <meta
               name="og:image"
-              content={`${config.siteUrl}/image/${image}?width=og`}
+              content={`${config.siteUrl}${image}?width=og`}
             />
             <meta name="og:image:alt" content={description} />
           </Fragment>
@@ -57,7 +57,7 @@ export const WfHead: FunctionComponent<WfHeadProps> = (props) => {
           <Fragment>
             <meta
               name="twitter:image"
-              content={`${config.siteUrl}/image/${image}?width=og`}
+              content={`${config.siteUrl}${image}?width=og`}
             />
           </Fragment>
         )
